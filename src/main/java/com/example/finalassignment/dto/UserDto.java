@@ -1,4 +1,2 @@
-package com.example.finalassignment.dto;
-
-public class UserDto {
+package com.example.finalassignment.dto;public class User {
 }
