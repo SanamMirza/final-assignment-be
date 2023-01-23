@@ -5,7 +5,7 @@ import javax.persistence.*;
 import java.util.List;
 
 @Entity
-public class User {
+public class Account {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
@@ -15,8 +15,12 @@ public class User {
     private String emailAddress;
     private Long telephoneNumber;
 
-    @OneToMany(mappedBy = "user")
+    @OneToMany(mappedBy = "account")
     private List<Appointment> appointments;
+    @OneToMany(mappedBy = "account")
+    private List<Product> products;
+//    @OneToMany(mappedBy = "account")
+//    private List<FileUpload> fileUploads;
    
 
     public Long getId() {

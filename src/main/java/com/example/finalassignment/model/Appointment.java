@@ -1,20 +1,20 @@
 package com.example.finalassignment.model;
 
-import jakarta.persistence.Entity;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.Id;
-
+import javax.persistence.*;
 import java.time.LocalDate;
 import java.time.LocalTime;
 
 @Entity
 public class Appointment {
     @Id
-    @GeneratedValue
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
     private String subject;
     private LocalDate appointmentDate;
     private LocalTime appointmentTime;
+
+    @ManyToOne
+    private Account account;
 
     public Long getId() {
         return id;

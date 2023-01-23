@@ -1,8 +1,9 @@
 package com.example.finalassignment.model;
 
-import jakarta.persistence.Entity;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.Id;
+import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.Id;
+import javax.persistence.ManyToOne;
 
 @Entity
 public class Product {
@@ -10,6 +11,10 @@ public class Product {
     @GeneratedValue
     private Long id;
     private String title;
+
+    @ManyToOne
+    private Account account;
+
 
     public Long getId() {
         return id;

@@ -1,2 +1,15 @@
-package com.example.finalassignment.authentication;public class AuthenticationResponse {
+package com.example.finalassignment.authentication;
+
+public class AuthenticationResponse {
+
+    private final String jwt;
+
+    public AuthenticationResponse(String jwt) {
+        this.jwt = jwt;
+    }
+
+    public String getJwt() {
+        return jwt;
+    }
+
 }

@@ -7,7 +7,7 @@ import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.Size;
 import java.util.List;
 
-public class UserDto {
+public class AccountDto {
     @NotBlank
     @Size(min=3, max=50)
     public String firstName;
@@ -19,4 +19,5 @@ public class UserDto {
 
     @JsonIncludeProperties({"subject", "appointmentDate", "appointmentTime"})
     private List<Appointment> appointments;
+
 }

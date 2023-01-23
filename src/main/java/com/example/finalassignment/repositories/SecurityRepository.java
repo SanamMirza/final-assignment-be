@@ -1,4 +1,4 @@
-package com.example.finalassignment.repository;
+package com.example.finalassignment.repositories;
 
 public interface SecurityRepository {
 }

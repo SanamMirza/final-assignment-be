@@ -1,2 +1,8 @@
-package com.example.finalassignment.model;public class AuthorityKey {
+package com.example.finalassignment.model;
+
+import java.io.Serializable;
+
+public class AuthorityKey implements Serializable {
+    private String username;
+    private String authority;
 }
