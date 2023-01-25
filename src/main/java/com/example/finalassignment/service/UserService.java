@@ -15,15 +15,15 @@ import java.util.List;
 import java.util.Optional;
 import java.util.Set;
 
-//@Autowired
-//@Lazy
-//private PasswordEncoder passwordEncoder;
+
 @Service
 public class UserService {
     private final UserRepository userRepository;
-    private PasswordEncoder passwordEncoder;
+    private final PasswordEncoder passwordEncoder;
 
-    public UserService(UserRepository userRepository) {
+
+    public UserService (PasswordEncoder passwordEncoder, UserRepository userRepository) {
+        this.passwordEncoder = passwordEncoder;
         this.userRepository = userRepository;
     }
     public List<UserDto> getUsers() {
@@ -98,7 +98,6 @@ public class UserService {
 
         dto.username = user.getUsername();
         dto.password = user.getPassword();
-        dto.enabled = user.isEnabled();
         dto.apiKey = user.getApikey();
         dto.email = user.getEmail();
         dto.authorities = user.getAuthorities();
@@ -112,7 +111,6 @@ public class UserService {
 
         user.setUsername(userDto.getUsername());
         user.setPassword(userDto.getPassword());
-        user.setEnabled(userDto.getEnabled());
         user.setApikey(userDto.getApiKey());
         user.setEmail(userDto.getEmail());
 

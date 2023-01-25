@@ -7,8 +7,7 @@ import java.util.Set;
 public class UserDto {
     public String username;
     public String password;
-    public Boolean enabled;
-    public String apiKey;
+
     public String email;
     public Set<Authority> authorities;
 
@@ -28,21 +27,8 @@ public class UserDto {
         this.password = password;
     }
 
-    public Boolean getEnabled() {
-        return enabled;
-    }
 
-    public void setEnabled(Boolean enabled) {
-        this.enabled = enabled;
-    }
 
-    public String getApiKey() {
-        return apiKey;
-    }
-
-    public void setApiKey(String apiKey) {
-        this.apiKey = apiKey;
-    }
 
     public String getEmail() {
         return email;
