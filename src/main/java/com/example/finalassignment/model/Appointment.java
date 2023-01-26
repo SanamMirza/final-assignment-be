@@ -3,6 +3,7 @@ package com.example.finalassignment.model;
 import javax.persistence.*;
 import java.time.LocalDate;
 import java.time.LocalTime;
+import java.util.List;
 
 @Entity
 public class Appointment {
@@ -13,8 +14,15 @@ public class Appointment {
     private LocalDate appointmentDate;
     private LocalTime appointmentTime;
 
+
+    @OneToOne
+    @JoinColumn(name = "product_id", referencedColumnName = "id")
+    private Product product;
+
     @ManyToOne
+    @JoinColumn(name = "account_id", referencedColumnName = "id")
     private Account account;
+
 
     public Long getId() {
         return id;

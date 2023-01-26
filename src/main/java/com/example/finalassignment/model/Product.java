@@ -1,9 +1,6 @@
 package com.example.finalassignment.model;
 
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.Id;
-import javax.persistence.ManyToOne;
+import javax.persistence.*;
 
 @Entity
 public class Product {
@@ -12,8 +9,8 @@ public class Product {
     private Long id;
     private String title;
 
-    @ManyToOne
-    private Account account;
+    @OneToOne (mappedBy = "product")
+    private Appointment appointment;
 
 
     public Long getId() {

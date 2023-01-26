@@ -2,6 +2,7 @@ package com.example.finalassignment.model;
 
 import javax.persistence.*;
 import javax.validation.constraints.NotBlank;
+import java.util.List;
 
 @Entity
 public class FileUpload {
@@ -15,8 +16,9 @@ public class FileUpload {
     @NotBlank
     private byte form;
 
-//    @ManyToOne
-//    private FileUpload fileUpload;
+    @ManyToOne
+    @JoinColumn(name = "account_id", referencedColumnName = "id")
+    private Account account;
 
 
     public Long getId() {

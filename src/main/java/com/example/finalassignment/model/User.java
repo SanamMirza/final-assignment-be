@@ -25,6 +25,9 @@ public class User {
             orphanRemoval = true,
             fetch = FetchType.EAGER)
     private Set<Authority> authorities = new HashSet<>();
+//    @OneToOne(mappedBy = "username")
+//    private Account account;
+
 
     public String getUsername() { return username; }
     public void setUsername(String username) {

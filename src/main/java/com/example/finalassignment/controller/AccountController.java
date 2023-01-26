@@ -17,10 +17,10 @@ import static com.example.finalassignment.utils.Utils.getErrorString;
 @RestController
 @RequestMapping("/accounts")
 public class AccountController {
-    private final AccountService accountervice;
+    private final AccountService accountService;
 
-    public AccountController(AccountService accountService) {
-        accountervice = accountService;
+    public AccountController(AccountService accountService1) {
+        this.accountService = accountService1;
     }
 
     @PostMapping("")
@@ -30,10 +30,10 @@ public class AccountController {
             String errorString = getErrorString(br);
             return new ResponseEntity<>(errorString, HttpStatus.BAD_REQUEST);
         } else {
-            Long createdId = accountervice.createAccount(accountDto);
+            String newUsername = accountService.createAccount(accountDto);
             URI uri = URI.create(ServletUriComponentsBuilder
                     .fromCurrentContextPath()
-                    .path("/accounts/" + createdId)
+                    .path("/accounts/" + newUsername)
                     .toUriString());
             return ResponseEntity.created(uri).body("Account created");
         }
@@ -41,21 +41,22 @@ public class AccountController {
 
     @GetMapping("")
     public ResponseEntity<List<AccountDto>> getAccounts() {
-        return ResponseEntity.ok(accountervice.getAccounts());
+        return ResponseEntity.ok(accountService.getAccounts());
     }
 
-    @DeleteMapping("/{id}")
-    public ResponseEntity<AccountDto> deleteAccount(@PathVariable Long id) {
-        accountervice.deleteAccount(id);
+    @GetMapping("/{username}")
+    public ResponseEntity<AccountDto> getAccount(@PathVariable ("username") String username) {
+        AccountDto optionalAccount = accountService.getAccount(username);
+
+        return ResponseEntity.ok().body(optionalAccount);
+    }
+
+    @DeleteMapping("/{username}")
+    public ResponseEntity<AccountDto> deleteAccount(@PathVariable String username) {
+        accountService.deleteAccount(username);
         return ResponseEntity.noContent().build();
     }
 
-//    @PutMapping("")
-//    public ResponseEntity<AccountDto> updateAccount(@PathVariable("lastname") String lastName, @RequestBody AccountDto accountdto) {
-//        accountervice.updateAccount(lastName, accountdto);
-//        return ResponseEntity.noContent().build();
-//
-//    }
 }
 
 

@@ -67,6 +67,7 @@ public class SpringSecurityConfig {
 
                 .antMatchers("/authenticated").authenticated()
                 .antMatchers("/authenticate").permitAll()
+                .antMatchers("/**").denyAll()
                 .and()
                 .sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS);
 

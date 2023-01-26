@@ -1,5 +1,4 @@
 package com.example.finalassignment.service;
-
 import com.example.finalassignment.dto.UserDto;
 import com.example.finalassignment.exception.RecordNotFoundException;
 import com.example.finalassignment.exception.UsernameNotFoundException;
@@ -9,7 +8,6 @@ import com.example.finalassignment.repositories.UserRepository;
 import com.example.finalassignment.utils.RandomStringGenerator;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
-
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
@@ -53,7 +51,6 @@ public class UserService {
     public String createUser(UserDto userDto) {
         String randomString = RandomStringGenerator.generateAlphaNumeric(20);
         userDto.setPassword(passwordEncoder.encode(userDto.getPassword()));
-        userDto.setApiKey(randomString);
         User newUser = userRepository.save(toUser(userDto));
         return newUser.getUsername();
     }
@@ -98,7 +95,6 @@ public class UserService {
 
         dto.username = user.getUsername();
         dto.password = user.getPassword();
-        dto.apiKey = user.getApikey();
         dto.email = user.getEmail();
         dto.authorities = user.getAuthorities();
 
@@ -111,7 +107,6 @@ public class UserService {
 
         user.setUsername(userDto.getUsername());
         user.setPassword(userDto.getPassword());
-        user.setApikey(userDto.getApiKey());
         user.setEmail(userDto.getEmail());
 
         return user;

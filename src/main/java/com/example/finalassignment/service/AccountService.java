@@ -2,12 +2,14 @@ package com.example.finalassignment.service;
 
 import com.example.finalassignment.dto.AccountDto;
 import com.example.finalassignment.exception.RecordNotFoundException;
+import com.example.finalassignment.exception.UsernameNotFoundException;
 import com.example.finalassignment.model.Account;
 import com.example.finalassignment.repositories.AccountRepository;
 import org.springframework.stereotype.Service;
 import org.springframework.web.bind.annotation.RequestBody;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 
 
 @Service
@@ -19,7 +21,7 @@ public class AccountService {
     }
 
 
-    public Long createAccount(AccountDto accountDto) {
+    public String createAccount(AccountDto accountDto) {
         Account newAccount = new Account();
 
         newAccount.setFirstName((accountDto.firstName));
@@ -28,7 +30,7 @@ public class AccountService {
         newAccount.setEmailAddress((accountDto.emailAddress));
         newAccount.setTelephoneNumber((accountDto.telephoneNumber));
 
-        return newAccount.getId();
+        return newAccount.getUsername();
 
     }
 
@@ -48,13 +50,25 @@ public class AccountService {
 
     }
 
-    public void deleteAccount (@RequestBody Long id) {
-        accountRepository.deleteById(id);
+    public AccountDto getAccount(String username) {
+        AccountDto dto = new AccountDto();
+        Optional<Account> account = accountRepository.findById(username);
+
+        if (account.isPresent()) {
+            dto = fromAccount(account.get());
+        } else {
+            throw new UsernameNotFoundException(username);
+        }
+        return dto;
     }
 
-    public void updateAccount(Long id, AccountDto newAccount) {
-        if (!accountRepository.existsById(id)) throw new RecordNotFoundException("Record not found");
-        Account account = accountRepository.findById(id).get();
+    public void deleteAccount (@RequestBody String username) {
+        accountRepository.deleteById(username);
+    }
+
+    public void updateAccount(String username, AccountDto newAccount) {
+        if (!accountRepository.existsById(username)) throw new RecordNotFoundException("Record not found");
+        Account account = accountRepository.findById(username).get();
         account.setTelephoneNumber(newAccount.telephoneNumber);
         accountRepository.save(account);
     }
