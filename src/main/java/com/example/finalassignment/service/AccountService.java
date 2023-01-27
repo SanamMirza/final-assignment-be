@@ -5,6 +5,7 @@ import com.example.finalassignment.exception.RecordNotFoundException;
 import com.example.finalassignment.exception.UsernameNotFoundException;
 import com.example.finalassignment.model.Account;
 import com.example.finalassignment.repositories.AccountRepository;
+import com.example.finalassignment.repositories.UserRepository;
 import org.springframework.stereotype.Service;
 import org.springframework.web.bind.annotation.RequestBody;
 import java.util.ArrayList;
@@ -15,24 +16,28 @@ import java.util.Optional;
 @Service
 public class AccountService {
     private final AccountRepository accountRepository;
+    private final UserRepository userRepository;
 
-    public AccountService(AccountRepository accountRepository) {
+
+    public AccountService(AccountRepository accountRepository,
+                          UserRepository userRepository, UserService userService) {
         this.accountRepository = accountRepository;
+        this.userRepository = userRepository;
     }
 
 
-    public String createAccount(AccountDto accountDto) {
-        Account newAccount = new Account();
-
-        newAccount.setFirstName((accountDto.firstName));
-        newAccount.setLastName((accountDto.lastName));
-        newAccount.setAddress((accountDto.address));
-        newAccount.setEmailAddress((accountDto.emailAddress));
-        newAccount.setTelephoneNumber((accountDto.telephoneNumber));
-
-        return newAccount.getUsername();
-
-    }
+//    public String createAccount(AccountDto accountDto) {
+//        Account newAccount = new Account();
+//
+//        newAccount.setFirstName((accountDto.firstName));
+//        newAccount.setLastName((accountDto.lastName));
+//        newAccount.setAddress((accountDto.address));
+//        newAccount.setEmailAddress((accountDto.emailAddress));
+//        newAccount.setTelephoneNumber((accountDto.telephoneNumber));
+//
+//        return newAccount.getUsername();
+//
+//    }
 
     public List<AccountDto> getAccounts() {
         List<Account> allAccounts = accountRepository.findAll();
@@ -96,6 +101,22 @@ public class AccountService {
 
         return account;
     }
+
+    public void assignUserToAccount(String username, String userId) {
+        var optionalAccount = accountRepository.findById(username);
+        var optionalUser = userRepository.findById(userId);
+
+        if (optionalAccount.isPresent() && optionalUser.isPresent()) {
+            var account = optionalAccount.get();
+            var user = optionalUser.get();
+
+            account.setUser(user);
+            accountRepository.save(account);
+        } else {
+            throw new RecordNotFoundException("Record not found!");
+        }
+    }
+
 
 
 

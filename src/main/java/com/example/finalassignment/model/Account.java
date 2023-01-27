@@ -7,8 +7,8 @@ import java.util.List;
 @Entity
 public class Account {
     @Id
-    @Column(nullable = false, unique = true)
-    private String username;
+//    @Column(nullable = false, unique = true)
+//    private String username;
     private Long id;
     private String firstName;
     private String lastName;
@@ -20,17 +20,24 @@ public class Account {
     private List<Appointment> appointment;
     @OneToMany(mappedBy = "account")
     private List<FileUpload> fileUpload;
-//    @OneToOne(mappedBy = "username")
-//    @JoinColumn(name = "account_username", referencedColumnName = "username")
-//    private User user;
+    @OneToOne(mappedBy = "account")
+    private User user;
 
 
-    public String getUsername() {
-        return username;
+//    public String getUsername() {
+//        return username;
+//    }
+//
+//    public void setUsername(String username) {
+//        this.username = username;
+//    }
+
+    public Long getId() {
+        return id;
     }
 
-    public void setUsername(String username) {
-        this.username = username;
+    public void setId(Long id) {
+        this.id = id;
     }
 
     public String getFirstName() {
@@ -71,6 +78,14 @@ public class Account {
 
     public void setTelephoneNumber(Long telephoneNumber) {
         this.telephoneNumber = telephoneNumber;
+    }
+
+    public User getUser() {
+        return user;
+    }
+
+    public void setUser(User user) {
+        this.user = user;
     }
 }
 

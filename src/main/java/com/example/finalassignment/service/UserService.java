@@ -20,9 +20,11 @@ public class UserService {
     private final PasswordEncoder passwordEncoder;
 
 
+
     public UserService (PasswordEncoder passwordEncoder, UserRepository userRepository) {
         this.passwordEncoder = passwordEncoder;
         this.userRepository = userRepository;
+
     }
     public List<UserDto> getUsers() {
         List<UserDto> collection = new ArrayList<>();
@@ -89,6 +91,11 @@ public class UserService {
         userRepository.save(user);
     }
 
+    public UserDto addUser(UserDto userDto) {
+        User user =  toUser(userDto);
+        userRepository.save(user);
+        return userDto;
+    }
     public static UserDto fromUser(User user){
 
         var dto = new UserDto();

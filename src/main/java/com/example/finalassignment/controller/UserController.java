@@ -88,4 +88,10 @@ public class UserController {
         return ResponseEntity.noContent().build();
     }
 
+    @PutMapping("/users/{id}")
+    public UserDto updateTelevision(@PathVariable("id") String id, @RequestBody UserDto dto) {
+        userService.updateUser(id, dto);
+        return dto;
+    }
+
 }

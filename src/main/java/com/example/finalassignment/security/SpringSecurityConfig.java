@@ -44,18 +44,23 @@ public class SpringSecurityConfig {
                 .cors().and()
                 .authorizeRequests()
                 .antMatchers(HttpMethod.POST, "/users").permitAll()
-                .antMatchers(HttpMethod.GET, "/users").hasAuthority("ADMIN")
+                .antMatchers(HttpMethod.GET, "/users/{id}").permitAll()
                 .antMatchers(HttpMethod.DELETE, "/users/**").hasAuthority("ADMIN")
-//                .antMatchers(HttpMethod.PUT, "/users").hasAuthority("ADMIN")
+                .antMatchers(HttpMethod.PUT, "/users").permitAll()
 
-                .antMatchers(HttpMethod.POST, "/accounts").hasAuthority("USER")
-                .antMatchers(HttpMethod.GET, "/accounts", "/products").hasAuthority("USER")
+                .antMatchers(HttpMethod.POST, "/accounts").permitAll()
+                .antMatchers(HttpMethod.GET, "/accounts", "/products").permitAll()
                 .antMatchers(HttpMethod.DELETE, "/accounts").hasAuthority("USER")
-//                .antMatchers(HttpMethod.PUT, "/accounts").hasAuthority("USER")
+                .antMatchers(HttpMethod.PUT, "/accounts").permitAll()
 
-                .antMatchers(HttpMethod.POST, "/appointments", "/products").hasAuthority("ADMIN")
+                .antMatchers(HttpMethod.POST, "/appointments", "/products").permitAll()
                 .antMatchers(HttpMethod.GET, "/appointments/**", "/products/**").hasAnyAuthority("ADMIN", "USER")
                 .antMatchers(HttpMethod.DELETE, "/appointments/**", "/products/**").hasAuthority("ADMIN")
+//                .antMatchers(HttpMethod.PUT, "/appointments").permitAll()
+
+                .antMatchers(HttpMethod.POST, "/products").permitAll()
+                .antMatchers(HttpMethod.GET, "/products/**").hasAnyAuthority("ADMIN", "USER")
+                .antMatchers(HttpMethod.DELETE, "/products/**").hasAuthority("ADMIN")
 //                .antMatchers(HttpMethod.PUT, "/appointments").permitAll()
 
                 .antMatchers(HttpMethod.POST, "/filuploads").hasAuthority("USER")
@@ -63,7 +68,7 @@ public class SpringSecurityConfig {
                 .antMatchers(HttpMethod.DELETE, "/fileuploads/**").hasAnyAuthority("USER", "ADMIN")
                 .antMatchers(HttpMethod.PUT, "/filuploads").hasAuthority("ADMIN")
 
-                .antMatchers("/users", "/appointments", "/products", "/fileuploads").hasAnyAuthority("USER", "ADMIN")
+                .antMatchers("/users", "/accounts", "/appointments", "/products", "/fileuploads").hasAnyAuthority("USER", "ADMIN")
 
                 .antMatchers("/authenticated").authenticated()
                 .antMatchers("/authenticate").permitAll()

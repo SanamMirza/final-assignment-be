@@ -23,21 +23,21 @@ public class AccountController {
         this.accountService = accountService1;
     }
 
-    @PostMapping("")
-    public ResponseEntity<String> createAccount(@Valid @RequestBody AccountDto accountDto, BindingResult br) {
-
-        if (br.hasErrors()) {
-            String errorString = getErrorString(br);
-            return new ResponseEntity<>(errorString, HttpStatus.BAD_REQUEST);
-        } else {
-            String newUsername = accountService.createAccount(accountDto);
-            URI uri = URI.create(ServletUriComponentsBuilder
-                    .fromCurrentContextPath()
-                    .path("/accounts/" + newUsername)
-                    .toUriString());
-            return ResponseEntity.created(uri).body("Account created");
-        }
-    }
+//    @PostMapping("")
+//    public ResponseEntity<String> createAccount(@Valid @RequestBody AccountDto accountDto, BindingResult br) {
+//
+//        if (br.hasErrors()) {
+//            String errorString = getErrorString(br);
+//            return new ResponseEntity<>(errorString, HttpStatus.BAD_REQUEST);
+//        } else {
+//            String newUsername = accountService.createAccount(accountDto);
+//            URI uri = URI.create(ServletUriComponentsBuilder
+//                    .fromCurrentContextPath()
+//                    .path("/accounts/" + newUsername)
+//                    .toUriString());
+//            return ResponseEntity.created(uri).body("Account created");
+//        }
+//    }
 
     @GetMapping("")
     public ResponseEntity<List<AccountDto>> getAccounts() {
@@ -57,6 +57,10 @@ public class AccountController {
         return ResponseEntity.noContent().build();
     }
 
+    @PutMapping("/{id}/users")
+    public void assignUserToAccount(@PathVariable ("id") String id, @Valid @RequestBody AccountDto accountDto) {
+        accountService.assignUserToAccount(id, accountDto.username);
+    }
 }
 
 
