@@ -3,14 +3,13 @@ package com.example.finalassignment.dto;
 import com.example.finalassignment.model.Appointment;
 import com.fasterxml.jackson.annotation.JsonIncludeProperties;
 import javax.validation.constraints.Email;
-import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.Size;
 import java.util.List;
 
 public class AccountDto {
     public String username;
-//    public String password;
-    @NotBlank
+    public String password;
+
     @Size(min=3, max=50)
     public String firstName;
     public String lastName;
@@ -29,14 +28,14 @@ public class AccountDto {
     public void setUsername(String username) {
         this.username = username;
     }
-//
-//    public String getPassword() {
-//        return password;
-//    }
-//
-//    public void setPassword(String password) {
-//        this.password = password;
-//    }
+
+    public String getPassword() {
+        return password;
+    }
+
+    public void setPassword(String password) {
+        this.password = password;
+    }
 
     public String getFirstName() {
         return firstName;
@@ -85,4 +84,5 @@ public class AccountDto {
     public void setAppointments(List<Appointment> appointments) {
         this.appointments = appointments;
     }
+
 }

@@ -14,7 +14,6 @@ public class User {
     @Column(nullable = false, length = 255)
     private String password;
 
-
     @Column
     private String email;
 
@@ -25,7 +24,7 @@ public class User {
             orphanRemoval = true,
             fetch = FetchType.EAGER)
     private Set<Authority> authorities = new HashSet<>();
-    @OneToOne
+    @OneToOne(cascade = CascadeType.ALL)
     private Account account;
 
 
@@ -49,5 +48,8 @@ public class User {
     }
     public void removeAuthority(Authority authority) {
         this.authorities.remove(authority);
+    }
+
+    public void setAccount(Account account) {
     }
 }

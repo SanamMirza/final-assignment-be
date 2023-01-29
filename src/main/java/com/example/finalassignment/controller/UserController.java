@@ -7,6 +7,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
+import javax.validation.Valid;
 import java.net.URI;
 import java.util.List;
 import java.util.Map;
@@ -89,9 +90,15 @@ public class UserController {
     }
 
     @PutMapping("/users/{id}")
-    public UserDto updateTelevision(@PathVariable("id") String id, @RequestBody UserDto dto) {
+    public UserDto updateUser(@PathVariable("id") String id, @RequestBody UserDto dto) {
         userService.updateUser(id, dto);
         return dto;
     }
 
+//    @PutMapping("/users/{id}/account")
+//    public void assignUserToAccount(@PathVariable ("id") Long id, @Valid @RequestBody UserDto userDto) {
+//        userService.assignUserToAccount(id, userDto.username);
+//    }
 }
+
+

@@ -4,10 +4,15 @@ import com.example.finalassignment.dto.AccountDto;
 import com.example.finalassignment.exception.RecordNotFoundException;
 import com.example.finalassignment.exception.UsernameNotFoundException;
 import com.example.finalassignment.model.Account;
+import com.example.finalassignment.model.User;
 import com.example.finalassignment.repositories.AccountRepository;
+
 import com.example.finalassignment.repositories.UserRepository;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.web.bind.annotation.RequestBody;
+
+import javax.transaction.Transactional;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
@@ -17,65 +22,109 @@ import java.util.Optional;
 public class AccountService {
     private final AccountRepository accountRepository;
     private final UserRepository userRepository;
+//    private final PasswordEncoder passwordEncoder;
 
 
-    public AccountService(AccountRepository accountRepository,
-                          UserRepository userRepository, UserService userService) {
+    public AccountService(AccountRepository accountRepository, UserRepository userRepository, UserService userService, PasswordEncoder passwordEncoder, PasswordEncoder passwordEncoder1) {
         this.accountRepository = accountRepository;
         this.userRepository = userRepository;
+//        this.passwordEncoder = passwordEncoder;
+    }
+
+    public Long createAccount (AccountDto accountDto) {
+        Account newAccount = new Account();
+
+        newAccount.setFirstName(accountDto.getFirstName());
+        newAccount.setLastName(accountDto.getLastName());
+        newAccount.setAddress(accountDto.getAddress());
+        newAccount.setTelephoneNumber(accountDto.getTelephoneNumber());
+        newAccount.setEmailAddress(accountDto.getEmailAddress());
+
+        return newAccount.getId();
     }
 
 
-//    public String createAccount(AccountDto accountDto) {
+//    @Transactional
+//    public AccountDto createUserAccount(AccountDto accountDto) {
+//        User newUser = new User();
+//
+//        newUser.setUsername(accountDto.getUsername());
+//        newUser.setPassword(passwordEncoder.encode(accountDto.getPassword()));
+//
+//        userRepository.save(newUser);
+//
 //        Account newAccount = new Account();
 //
-//        newAccount.setFirstName((accountDto.firstName));
-//        newAccount.setLastName((accountDto.lastName));
-//        newAccount.setAddress((accountDto.address));
-//        newAccount.setEmailAddress((accountDto.emailAddress));
-//        newAccount.setTelephoneNumber((accountDto.telephoneNumber));
+//        newAccount.setFirstName((accountDto.getFirstName()));
+//        newAccount.setLastName((accountDto.getLastName()));
+//        newAccount.setAddress((accountDto.getAddress()));
+//        newAccount.setEmailAddress((accountDto.getEmailAddress()));
+//        newAccount.setTelephoneNumber((accountDto.getTelephoneNumber()));
 //
-//        return newAccount.getUsername();
+//        accountRepository.save(newAccount);
 //
+//        newAccount.setUser(newUser);
+//        newUser.setAccount(newAccount);
+//
+//        return fromAccount(newAccount);
 //    }
 
     public List<AccountDto> getAccounts() {
         List<Account> allAccounts = accountRepository.findAll();
         List<AccountDto> accountDtoList = new ArrayList<>();
         for (Account account : allAccounts) {
-            AccountDto newAccountDto = new AccountDto();
-            newAccountDto.firstName = account.getFirstName();
-            newAccountDto.lastName = account.getLastName();
-            newAccountDto.address = account.getAddress();
-            newAccountDto.emailAddress = account.getEmailAddress();
-            newAccountDto.telephoneNumber = account.getTelephoneNumber();
+            AccountDto newAccountDto = fromAccount(account);
+
             accountDtoList.add(newAccountDto);
     }
         return accountDtoList;
 
     }
 
-    public AccountDto getAccount(String username) {
+    public AccountDto getAccount(Long id) {
         AccountDto dto = new AccountDto();
-        Optional<Account> account = accountRepository.findById(username);
+        Optional<Account> account = accountRepository.findById(id);
 
         if (account.isPresent()) {
             dto = fromAccount(account.get());
         } else {
-            throw new UsernameNotFoundException(username);
+            throw new UsernameNotFoundException("user not found");
         }
         return dto;
     }
 
-    public void deleteAccount (@RequestBody String username) {
-        accountRepository.deleteById(username);
+    public void deleteAccount (@RequestBody Long id) {
+        accountRepository.deleteById(id);
     }
 
-    public void updateAccount(String username, AccountDto newAccount) {
-        if (!accountRepository.existsById(username)) throw new RecordNotFoundException("Record not found");
-        Account account = accountRepository.findById(username).get();
+    public void updateAccount(Long id, AccountDto newAccount) {
+        if (!accountRepository.existsById(id)) throw new RecordNotFoundException("Record not found");
+        Account account = accountRepository.findById(id).get();
         account.setTelephoneNumber(newAccount.telephoneNumber);
         accountRepository.save(account);
+    }
+
+    public void assignUserToAccount(Long id, String userId) {
+        var optionalAccount = accountRepository.findById(id);
+        var optionalUser = userRepository.findById(userId);
+
+        if (optionalAccount.isPresent() && optionalUser.isPresent()) {
+            var account = optionalAccount.get();
+            var user = optionalUser.get();
+
+            account.setUser(user);
+            accountRepository.save(account);
+            user.setAccount(account);
+            userRepository.save(user);
+        } else {
+            throw new RecordNotFoundException("Record not found!");
+        }
+    }
+
+    public AccountDto addAccount(AccountDto accountDto) {
+        Account account =  toAccount(accountDto);
+        accountRepository.save(account);
+        return accountDto;
     }
 
     public static AccountDto fromAccount(Account account){
@@ -86,6 +135,10 @@ public class AccountService {
         dto.address = account.getAddress();
         dto.emailAddress = account.getEmailAddress();
         dto.telephoneNumber = account.getTelephoneNumber();
+
+        if(account.getUser()!=null) {
+            dto.setUsername(account.getUser().getUsername());
+        }
 
         return dto;
     }
@@ -100,21 +153,6 @@ public class AccountService {
         account.setTelephoneNumber(accountDto.telephoneNumber);
 
         return account;
-    }
-
-    public void assignUserToAccount(String username, String userId) {
-        var optionalAccount = accountRepository.findById(username);
-        var optionalUser = userRepository.findById(userId);
-
-        if (optionalAccount.isPresent() && optionalUser.isPresent()) {
-            var account = optionalAccount.get();
-            var user = optionalUser.get();
-
-            account.setUser(user);
-            accountRepository.save(account);
-        } else {
-            throw new RecordNotFoundException("Record not found!");
-        }
     }
 
 

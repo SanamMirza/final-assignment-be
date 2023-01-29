@@ -7,9 +7,9 @@ import java.util.List;
 @Entity
 public class Account {
     @Id
-//    @Column(nullable = false, unique = true)
-//    private String username;
     private Long id;
+    @Column(nullable = false, unique = true)
+    private String username;
     private String firstName;
     private String lastName;
     private String address;
@@ -24,13 +24,6 @@ public class Account {
     private User user;
 
 
-//    public String getUsername() {
-//        return username;
-//    }
-//
-//    public void setUsername(String username) {
-//        this.username = username;
-//    }
 
     public Long getId() {
         return id;
@@ -87,6 +80,8 @@ public class Account {
     public void setUser(User user) {
         this.user = user;
     }
+
+    public String getUsername() { return username;}
 }
 
 

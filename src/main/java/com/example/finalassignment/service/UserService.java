@@ -4,6 +4,7 @@ import com.example.finalassignment.exception.RecordNotFoundException;
 import com.example.finalassignment.exception.UsernameNotFoundException;
 import com.example.finalassignment.model.Authority;
 import com.example.finalassignment.model.User;
+import com.example.finalassignment.repositories.AccountRepository;
 import com.example.finalassignment.repositories.UserRepository;
 import com.example.finalassignment.utils.RandomStringGenerator;
 import org.springframework.security.crypto.password.PasswordEncoder;
@@ -24,7 +25,6 @@ public class UserService {
     public UserService (PasswordEncoder passwordEncoder, UserRepository userRepository) {
         this.passwordEncoder = passwordEncoder;
         this.userRepository = userRepository;
-
     }
     public List<UserDto> getUsers() {
         List<UserDto> collection = new ArrayList<>();
@@ -96,6 +96,24 @@ public class UserService {
         userRepository.save(user);
         return userDto;
     }
+
+
+
+//    public void assignAccountToUser(Long id, String userId) {
+//        var optionalUser = userRepository.findById(userId);
+//        var optionalAccount = accountRepository.findById(id);
+//
+//        if (optionalUser.isPresent() && optionalAccount.isPresent()) {
+//            var user = optionalUser.get();
+//            var account = optionalAccount.get();
+//
+//            user.setAccount(account);
+//            userRepository.save(user);
+//        } else {
+//            throw new RecordNotFoundException("Record not found!");
+//        }
+//    }
+
     public static UserDto fromUser(User user){
 
         var dto = new UserDto();
