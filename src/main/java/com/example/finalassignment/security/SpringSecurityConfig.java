@@ -51,7 +51,7 @@ public class SpringSecurityConfig {
                 .antMatchers(HttpMethod.POST, "/accounts").permitAll()
                 .antMatchers(HttpMethod.GET, "/accounts", "/products").permitAll()
                 .antMatchers(HttpMethod.DELETE, "/accounts").hasAuthority("USER")
-                .antMatchers(HttpMethod.PUT, "/accounts").permitAll()
+                .antMatchers(HttpMethod.PUT, "/accounts/**").permitAll()
 
                 .antMatchers(HttpMethod.POST, "/appointments", "/products").permitAll()
                 .antMatchers(HttpMethod.GET, "/appointments/**", "/products/**").hasAnyAuthority("ADMIN", "USER")

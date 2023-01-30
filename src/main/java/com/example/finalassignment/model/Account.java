@@ -7,8 +7,9 @@ import java.util.List;
 @Entity
 public class Account {
     @Id
+    @GeneratedValue
     private Long id;
-    @Column(nullable = false, unique = true)
+
     private String username;
     private String firstName;
     private String lastName;
@@ -23,7 +24,9 @@ public class Account {
     @OneToOne(mappedBy = "account")
     private User user;
 
-
+    public void setUsername(String username) {
+        this.username = username;
+    }
 
     public Long getId() {
         return id;

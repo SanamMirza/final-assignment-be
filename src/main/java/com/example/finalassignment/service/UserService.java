@@ -19,12 +19,14 @@ import java.util.Set;
 public class UserService {
     private final UserRepository userRepository;
     private final PasswordEncoder passwordEncoder;
+    private final AccountRepository accountRepository;
 
 
 
-    public UserService (PasswordEncoder passwordEncoder, UserRepository userRepository) {
+    public UserService (PasswordEncoder passwordEncoder, UserRepository userRepository, AccountRepository accountRepository) {
         this.passwordEncoder = passwordEncoder;
         this.userRepository = userRepository;
+        this.accountRepository = accountRepository;
     }
     public List<UserDto> getUsers() {
         List<UserDto> collection = new ArrayList<>();

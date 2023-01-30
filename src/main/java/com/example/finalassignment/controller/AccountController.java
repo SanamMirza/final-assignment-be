@@ -61,16 +61,16 @@ public class AccountController {
         return ResponseEntity.noContent().build();
     }
 
-    @PutMapping("/{id}/user")
-    public void assignUserToAccount(@PathVariable ("id") Long id, @Valid @RequestBody AccountDto accountDto) {
-        accountService.assignUserToAccount(id, accountDto.username);
+    @PutMapping("/{id}/user/{userId}")
+    public void assignUserToAccount(@PathVariable Long id, @PathVariable String userId) {
+        accountService.assignUserToAccount(id, userId) ;
     }
 
-//    @PutMapping("/{id}")
-//    public AccountDto updateUser(@PathVariable("id") Long id, @RequestBody AccountDto dto) {
-//        accountService.updateAccount(id, dto);
-//        return dto;
-//    }
+    @PutMapping("/{id}")
+    public AccountDto updateUser(@PathVariable("id") Long id, @RequestBody AccountDto dto) {
+        accountService.updateAccount(id, dto);
+        return dto;
+    }
 }
 
 

@@ -22,13 +22,13 @@ import java.util.Optional;
 public class AccountService {
     private final AccountRepository accountRepository;
     private final UserRepository userRepository;
-//    private final PasswordEncoder passwordEncoder;
+    private final PasswordEncoder passwordEncoder;
 
 
-    public AccountService(AccountRepository accountRepository, UserRepository userRepository, UserService userService, PasswordEncoder passwordEncoder, PasswordEncoder passwordEncoder1) {
+    public AccountService(AccountRepository accountRepository, UserRepository userRepository, PasswordEncoder passwordEncoder) {
         this.accountRepository = accountRepository;
         this.userRepository = userRepository;
-//        this.passwordEncoder = passwordEncoder;
+        this.passwordEncoder = passwordEncoder;
     }
 
     public Long createAccount (AccountDto accountDto) {
@@ -40,34 +40,9 @@ public class AccountService {
         newAccount.setTelephoneNumber(accountDto.getTelephoneNumber());
         newAccount.setEmailAddress(accountDto.getEmailAddress());
 
-        return newAccount.getId();
+        return accountRepository.save(newAccount).getId();
+
     }
-
-
-//    @Transactional
-//    public AccountDto createUserAccount(AccountDto accountDto) {
-//        User newUser = new User();
-//
-//        newUser.setUsername(accountDto.getUsername());
-//        newUser.setPassword(passwordEncoder.encode(accountDto.getPassword()));
-//
-//        userRepository.save(newUser);
-//
-//        Account newAccount = new Account();
-//
-//        newAccount.setFirstName((accountDto.getFirstName()));
-//        newAccount.setLastName((accountDto.getLastName()));
-//        newAccount.setAddress((accountDto.getAddress()));
-//        newAccount.setEmailAddress((accountDto.getEmailAddress()));
-//        newAccount.setTelephoneNumber((accountDto.getTelephoneNumber()));
-//
-//        accountRepository.save(newAccount);
-//
-//        newAccount.setUser(newUser);
-//        newUser.setAccount(newAccount);
-//
-//        return fromAccount(newAccount);
-//    }
 
     public List<AccountDto> getAccounts() {
         List<Account> allAccounts = accountRepository.findAll();
@@ -151,6 +126,7 @@ public class AccountService {
         account.setAddress(accountDto.address);
         account.setEmailAddress(accountDto.emailAddress);
         account.setTelephoneNumber(accountDto.telephoneNumber);
+        account.setUsername(accountDto.username);
 
         return account;
     }

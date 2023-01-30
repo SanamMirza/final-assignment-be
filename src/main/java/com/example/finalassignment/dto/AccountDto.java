@@ -8,7 +8,6 @@ import java.util.List;
 
 public class AccountDto {
     public String username;
-    public String password;
 
     @Size(min=3, max=50)
     public String firstName;
@@ -29,13 +28,6 @@ public class AccountDto {
         this.username = username;
     }
 
-    public String getPassword() {
-        return password;
-    }
-
-    public void setPassword(String password) {
-        this.password = password;
-    }
 
     public String getFirstName() {
         return firstName;

@@ -96,8 +96,8 @@ public class UserController {
     }
 
 //    @PutMapping("/users/{id}/account")
-//    public void assignUserToAccount(@PathVariable ("id") Long id, @Valid @RequestBody UserDto userDto) {
-//        userService.assignUserToAccount(id, userDto.username);
+//    public void assignAccountToUser(@PathVariable ("id") Long id, @Valid @RequestBody UserDto userDto) {
+//        userService.assignAccountToUser(id, userDto.username);
 //    }
 }
 
