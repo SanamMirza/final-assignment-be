@@ -17,10 +17,10 @@ import static com.example.finalassignment.utils.Utils.getErrorString;
 @RestController
 @RequestMapping("/appointments")
 public class AppointmentController {
-    private final AppointmentService AppointmentService;
+    private final AppointmentService appointmentService;
 
     public AppointmentController(AppointmentService appointmentService) {
-        AppointmentService = appointmentService;
+        this.appointmentService = appointmentService;
     }
 
     @PostMapping("")
@@ -29,7 +29,7 @@ public class AppointmentController {
             String errorString = getErrorString(br);
             return new ResponseEntity<>(errorString, HttpStatus.BAD_REQUEST);
         } else {
-            Long createdId = AppointmentService.createAppointment(appointmentdto);
+            Long createdId = appointmentService.createAppointment(appointmentdto);
             URI uri = URI.create(ServletUriComponentsBuilder
                     .fromCurrentContextPath()
                     .path("/appointments/" + createdId)
@@ -40,13 +40,13 @@ public class AppointmentController {
 
     @GetMapping("")
     public ResponseEntity<List<AppointmentDto>> getAppointments() {
-        return ResponseEntity.ok(AppointmentService.getAppointments());
+        return ResponseEntity.ok(appointmentService.getAppointments());
     }
 
 
     @DeleteMapping("/{id}")
     public ResponseEntity<AppointmentDto> deleteAppointment(@PathVariable Long id) {
-        AppointmentService.deleteAppointment(id);
+        appointmentService.deleteAppointment(id);
         return ResponseEntity.noContent().build();
     }
 

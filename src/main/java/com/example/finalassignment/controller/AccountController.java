@@ -20,11 +20,9 @@ import static com.example.finalassignment.utils.Utils.getErrorString;
 @RequestMapping("/accounts")
 public class AccountController {
     private final AccountService accountService;
-    private final UserRepository userRepository;
 
-    public AccountController(AccountService accountService1, UserRepository userRepository) {
-        this.accountService = accountService1;
-        this.userRepository = userRepository;
+    public AccountController(AccountService accountService) {
+        this.accountService = accountService;
     }
 
     @PostMapping("")
@@ -61,9 +59,9 @@ public class AccountController {
         return ResponseEntity.noContent().build();
     }
 
-    @PutMapping("/{id}/user/{userId}")
-    public void assignUserToAccount(@PathVariable Long id, @PathVariable String userId) {
-        accountService.assignUserToAccount(id, userId) ;
+    @PostMapping("/user/{username}")
+    public void assignUserToAccount(@PathVariable Long id, @PathVariable String username) {
+        accountService.assignUserToAccount(id, username) ;
     }
 
     @PutMapping("/{id}")

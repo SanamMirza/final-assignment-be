@@ -1,39 +1,34 @@
-package com.example.finalassignment.model;
+package com.example.finalassignment.dto;
 
+import javax.validation.constraints.Email;
+import javax.validation.constraints.Size;
 
-import javax.persistence.*;
-import java.util.List;
+public class AccountUserDto {
+    public String username;
+    public String password;
 
-@Entity
-public class Account {
-    @Id
-    @GeneratedValue
-    private Long id;
+    @Size(min=3, max=50)
+    public String firstName;
+    public String lastName;
+    public String address;
+    @Email
+    public String email;
+    public Long telephoneNumber;
 
-    private String username;
-    private String firstName;
-    private String lastName;
-    private String address;
-    private String email;
-    private Long telephoneNumber;
-
-    @OneToMany(mappedBy = "account")
-    private List<Appointment> appointment;
-    @OneToMany(mappedBy = "account")
-    private List<FileUpload> fileUpload;
-    @OneToOne(mappedBy = "account")
-    private User user;
+    public String getUsername() {
+        return username;
+    }
 
     public void setUsername(String username) {
         this.username = username;
     }
 
-    public Long getId() {
-        return id;
+    public String getPassword() {
+        return password;
     }
 
-    public void setId(Long id) {
-        this.id = id;
+    public void setPassword(String password) {
+        this.password = password;
     }
 
     public String getFirstName() {
@@ -75,16 +70,4 @@ public class Account {
     public void setTelephoneNumber(Long telephoneNumber) {
         this.telephoneNumber = telephoneNumber;
     }
-
-    public User getUser() {
-        return user;
-    }
-
-    public void setUser(User user) {
-        this.user = user;
-    }
-
-    public String getUsername() { return username;}
 }
-
-

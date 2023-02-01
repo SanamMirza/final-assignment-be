@@ -12,7 +12,6 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.web.bind.annotation.RequestBody;
 
-import javax.transaction.Transactional;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
@@ -38,7 +37,7 @@ public class AccountService {
         newAccount.setLastName(accountDto.getLastName());
         newAccount.setAddress(accountDto.getAddress());
         newAccount.setTelephoneNumber(accountDto.getTelephoneNumber());
-        newAccount.setEmailAddress(accountDto.getEmailAddress());
+        newAccount.setEmail(accountDto.getEmail());
 
         return accountRepository.save(newAccount).getId();
 
@@ -108,7 +107,7 @@ public class AccountService {
         dto.firstName = account.getFirstName();
         dto.lastName = account.getLastName();
         dto.address = account.getAddress();
-        dto.emailAddress = account.getEmailAddress();
+        dto.email = account.getEmail();
         dto.telephoneNumber = account.getTelephoneNumber();
 
         if(account.getUser()!=null) {
@@ -124,7 +123,7 @@ public class AccountService {
         account.setFirstName(accountDto.firstName);
         account.setLastName(accountDto.lastName);
         account.setAddress(accountDto.address);
-        account.setEmailAddress(accountDto.emailAddress);
+        account.setEmail(accountDto.email);
         account.setTelephoneNumber(accountDto.telephoneNumber);
         account.setUsername(accountDto.username);
 

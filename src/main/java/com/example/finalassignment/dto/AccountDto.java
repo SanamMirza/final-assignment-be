@@ -14,7 +14,7 @@ public class AccountDto {
     public String lastName;
     public String address;
     @Email
-    public String emailAddress;
+    public String email;
     public Long telephoneNumber;
 
     @JsonIncludeProperties({"subject", "appointmentDate", "appointmentTime"})
@@ -53,14 +53,13 @@ public class AccountDto {
         this.address = address;
     }
 
-    public String getEmailAddress() {
-        return emailAddress;
+    public String getEmail() {
+        return email;
     }
 
-    public void setEmailAddress(String emailAddress) {
-        this.emailAddress = emailAddress;
+    public void setEmail(String email) {
+        this.email= email;
     }
-
     public Long getTelephoneNumber() {
         return telephoneNumber;
     }

@@ -1,5 +1,6 @@
 package com.example.finalassignment.controller;
 
+import com.example.finalassignment.dto.AccountUserDto;
 import com.example.finalassignment.dto.UserDto;
 import com.example.finalassignment.exception.BadRequestException;
 import com.example.finalassignment.service.UserService;
@@ -41,9 +42,9 @@ public class UserController {
     }
 
     @PostMapping(value = "")
-    public ResponseEntity<UserDto> createUser(@RequestBody UserDto dto) {;
+    public ResponseEntity<AccountUserDto> createUser(@RequestBody AccountUserDto accountUserDto) {;
 
-        String newUsername = userService.createUser(dto);
+        String newUsername = userService.createUser(accountUserDto);
         userService.addAuthority(newUsername, "AUTHORITY_USER");
 
         URI location = ServletUriComponentsBuilder.fromCurrentRequest().path("/{username}")

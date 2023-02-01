@@ -13,8 +13,8 @@ public class FileUpload {
     private String fileName;
     @Lob
     private byte[] uploadFile;
-    @NotBlank
-    private byte form;
+//    @NotBlank
+//    private byte form;
 
     @ManyToOne
     @JoinColumn(name = "account_id", referencedColumnName = "id")
@@ -45,11 +45,11 @@ public class FileUpload {
         this.uploadFile = uploadFile;
     }
 
-    public byte getForm() {
-        return form;
-    }
-
-    public void setForm(byte form) {
-        this.form = form;
-    }
+//    public byte getForm() {
+//        return form;
+//    }
+//
+//    public void setForm(byte form) {
+//        this.form = form;
+//    }
 }

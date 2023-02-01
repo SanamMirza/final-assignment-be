@@ -1,54 +1,74 @@
 package com.example.finalassignment.controller;
-
-import com.example.finalassignment.dto.FileUploadDto;
+import com.example.finalassignment.fileUploadResponse.FileUploadResponse;
+import com.example.finalassignment.model.FileUpload;
 import com.example.finalassignment.service.FileUploadService;
-import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
-import javax.validation.Valid;
-import java.net.URI;
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+import java.io.IOException;
+import java.util.Collection;
 import java.util.List;
+import java.util.Objects;
 
-import static com.example.finalassignment.utils.Utils.getErrorString;
-import static org.springframework.data.jpa.domain.AbstractPersistable_.id;
-
+@CrossOrigin
 @RestController
 @RequestMapping("/fileuploads")
 public class FileUploadController {
-    private final FileUploadService Fileuploadservice;
+    private final FileUploadService fileUploadService;
 
-    public FileUploadController(FileUploadService fileuploadservice) {
-        Fileuploadservice = fileuploadservice;
+    public FileUploadController(FileUploadService fileUploadService) {
+        this.fileUploadService = fileUploadService;
     }
 
-    @PostMapping("")
-    public ResponseEntity<Object> createFile(@Valid @RequestBody FileUploadDto fileUploadDto, BindingResult br) {
 
-        if (br.hasErrors()) {
-            String errorString = getErrorString(br);
-            return new ResponseEntity<>(errorString, HttpStatus.BAD_REQUEST);
-        } else {
-            Long createdId = Fileuploadservice.createFile(fileUploadDto);
-            URI uri = URI.create(ServletUriComponentsBuilder
-                    .fromCurrentContextPath()
-                    .path("/fileuploads/" + createdId)
-                    .toUriString());
-            return ResponseEntity.created(uri).body("File created");
-        }
+    @PostMapping("single/upload")
+    public FileUploadResponse singleFileUpload(@RequestParam("file") MultipartFile file) throws IOException {
+
+
+        // next line makes url. example "http://localhost:8080/download/naam.jpg"
+        FileUpload fileUpload = fileUploadService.uploadFileDocument(file);
+        String url = ServletUriComponentsBuilder.fromCurrentContextPath().path("/downloadFrom/").path(Objects.requireNonNull(file.getOriginalFilename())).toUriString();
+
+        String contentType = file.getContentType();
+
+        return new FileUploadResponse(fileUpload.getFileName(), url, contentType );
     }
 
-        @GetMapping("")
-        public ResponseEntity<List<FileUploadDto>> getFiles() {
-            return ResponseEntity.ok(Fileuploadservice.getFiles());
+    //    get for single download
+    @GetMapping("/download/{fileName}")
+    ResponseEntity<byte[]> downLoadSingleFile(@PathVariable String fileName, HttpServletRequest request) {
+
+        return fileUploadService.singleFileDownload(fileName, request);
+    }
+
+    //    post for multiple uploads to database
+    @PostMapping("/multiple/upload")
+    List<FileUploadResponse> multipleUpload(@RequestParam("files") MultipartFile [] files) {
+
+        if(files.length > 7) {
+            throw new RuntimeException("to many files selected");
         }
 
-        @DeleteMapping("/{id}")
-        public ResponseEntity<FileUploadDto> deleteFileUpload(@PathVariable Long id) {
-            Fileuploadservice.deleteFile(id);
-            return ResponseEntity.noContent().build();
-        }
+        return fileUploadService.createMultipleUpload(files);
 
+    }
+
+    @GetMapping("zipDownload")
+    public void zipDownload(@RequestBody String[] files, HttpServletResponse response) throws IOException {
+
+        fileUploadService.getZipDownload(files, response);
+
+    }
+
+    @GetMapping("/getAll/db")
+    public Collection<FileUpload> getAllFromDB(){
+        return fileUploadService.getALlFromDB();
+    }
 }
+
+
+

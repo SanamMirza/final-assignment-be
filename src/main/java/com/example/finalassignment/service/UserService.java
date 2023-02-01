@@ -1,7 +1,9 @@
 package com.example.finalassignment.service;
+import com.example.finalassignment.dto.AccountUserDto;
 import com.example.finalassignment.dto.UserDto;
 import com.example.finalassignment.exception.RecordNotFoundException;
 import com.example.finalassignment.exception.UsernameNotFoundException;
+import com.example.finalassignment.model.Account;
 import com.example.finalassignment.model.Authority;
 import com.example.finalassignment.model.User;
 import com.example.finalassignment.repositories.AccountRepository;
@@ -40,9 +42,9 @@ public class UserService {
     public UserDto getUser(String username) {
         UserDto dto = new UserDto();
         Optional<User> user = userRepository.findById(username);
-        if (user.isPresent()){
+        if (user.isPresent()) {
             dto = fromUser(user.get());
-        }else {
+        } else {
             throw new UsernameNotFoundException(username);
         }
         return dto;
@@ -52,12 +54,37 @@ public class UserService {
         return userRepository.existsById(username);
     }
 
-    public String createUser(UserDto userDto) {
-        String randomString = RandomStringGenerator.generateAlphaNumeric(20);
-        userDto.setPassword(passwordEncoder.encode(userDto.getPassword()));
-        User newUser = userRepository.save(toUser(userDto));
+    public String createUser(AccountUserDto accountUserDto) {
+        Account account = new Account();
+        User user = new User();
+
+        //Alle account properties vullen
+        account.setFirstName(accountUserDto.getFirstName());
+        account.setLastName(accountUserDto.getLastName());
+        account.setAddress(accountUserDto.getAddress());
+        account.setEmail(accountUserDto.getEmail());
+        account.setTelephoneNumber(accountUserDto.getTelephoneNumber());
+
+        //Zelfde voor user (username en password)
+        user.setUsername(accountUserDto.getUsername());
+        user.setPassword(passwordEncoder.encode(accountUserDto.getPassword()));
+        //Account savedAccount = acountRespository.save(account)
+        Account savedAccount = accountRepository.save(account);
+        // user.setAccount(savedAccount)
+        user.setAccount(savedAccount);
+
+        //userRepository.save(user);
+        User newUser = userRepository.save(user);
+
         return newUser.getUsername();
+
     }
+
+//        String randomString = RandomStringGenerator.generateAlphaNumeric(20);
+//        userDto.setPassword(passwordEncoder.encode(userDto.getPassword()));
+//        User newUser = userRepository.save(toUser(userDto));
+//        return newUser.getUsername();
+
 
     public void deleteUser(String username) {
         userRepository.deleteById(username);
@@ -100,22 +127,6 @@ public class UserService {
     }
 
 
-
-//    public void assignAccountToUser(Long id, String userId) {
-//        var optionalUser = userRepository.findById(userId);
-//        var optionalAccount = accountRepository.findById(id);
-//
-//        if (optionalUser.isPresent() && optionalAccount.isPresent()) {
-//            var user = optionalUser.get();
-//            var account = optionalAccount.get();
-//
-//            user.setAccount(account);
-//            userRepository.save(user);
-//        } else {
-//            throw new RecordNotFoundException("Record not found!");
-//        }
-//    }
-
     public static UserDto fromUser(User user){
 
         var dto = new UserDto();
@@ -138,5 +149,6 @@ public class UserService {
 
         return user;
     }
+
 
 }
