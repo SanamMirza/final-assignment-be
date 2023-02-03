@@ -53,22 +53,25 @@ public class SpringSecurityConfig {
                 .antMatchers(HttpMethod.DELETE, "/accounts").hasAuthority("USER")
                 .antMatchers(HttpMethod.PUT, "/accounts/**").permitAll()
 
-                .antMatchers(HttpMethod.POST, "/appointments", "/products").permitAll()
+                .antMatchers(HttpMethod.POST, "/appointments/**").permitAll()
                 .antMatchers(HttpMethod.GET, "/appointments/**", "/products/**").hasAnyAuthority("ADMIN", "USER")
                 .antMatchers(HttpMethod.DELETE, "/appointments/**", "/products/**").hasAuthority("ADMIN")
-//                .antMatchers(HttpMethod.PUT, "/appointments").permitAll()
+                .antMatchers(HttpMethod.PUT, "/appointments").permitAll()
 
                 .antMatchers(HttpMethod.POST, "/products").permitAll()
                 .antMatchers(HttpMethod.GET, "/products/**").hasAnyAuthority("ADMIN", "USER")
                 .antMatchers(HttpMethod.DELETE, "/products/**").hasAuthority("ADMIN")
-//                .antMatchers(HttpMethod.PUT, "/appointments").permitAll()
+                .antMatchers(HttpMethod.PUT, "/products").permitAll()
 
-                .antMatchers(HttpMethod.POST, "/filuploads").hasAuthority("USER")
-                .antMatchers(HttpMethod.GET, "/fileuploads").hasAnyAuthority("USER", "ADMIN")
-                .antMatchers(HttpMethod.DELETE, "/fileuploads/**").hasAnyAuthority("USER", "ADMIN")
-                .antMatchers(HttpMethod.PUT, "/filuploads").hasAuthority("ADMIN")
+                .antMatchers(HttpMethod.POST, "/docs/**").hasAuthority("USER")
+                .antMatchers(HttpMethod.GET, "/docs/**").hasAnyAuthority("USER", "ADMIN")
+                .antMatchers(HttpMethod.DELETE, "/docs/**").hasAnyAuthority("USER", "ADMIN")
+                .antMatchers(HttpMethod.PUT, "/docs").hasAuthority("ADMIN")
 
-                .antMatchers("/users", "/accounts", "/appointments", "/products", "/fileuploads").hasAnyAuthority("USER", "ADMIN")
+                .antMatchers(HttpMethod.POST, "/contact").permitAll()
+                .antMatchers(HttpMethod.GET, "/contact").hasAuthority("ADMIN")
+
+                .antMatchers("/users", "/accounts", "/appointments", "/products", "/docs", "/contact").hasAnyAuthority("USER", "ADMIN")
 
                 .antMatchers("/authenticated").authenticated()
                 .antMatchers("/authenticate").permitAll()

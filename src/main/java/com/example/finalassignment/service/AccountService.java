@@ -74,9 +74,12 @@ public class AccountService {
     public void updateAccount(Long id, AccountDto newAccount) {
         if (!accountRepository.existsById(id)) throw new RecordNotFoundException("Record not found");
         Account account = accountRepository.findById(id).get();
-        account.setTelephoneNumber(newAccount.telephoneNumber);
+        account.setAddress(newAccount.getAddress());
+        account.setTelephoneNumber(newAccount.getTelephoneNumber());
         accountRepository.save(account);
     }
+
+
 
     public void assignUserToAccount(Long id, String userId) {
         var optionalAccount = accountRepository.findById(id);
@@ -109,6 +112,7 @@ public class AccountService {
         dto.address = account.getAddress();
         dto.email = account.getEmail();
         dto.telephoneNumber = account.getTelephoneNumber();
+        dto.id = account.getId();
 
         if(account.getUser()!=null) {
             dto.setUsername(account.getUser().getUsername());
@@ -120,12 +124,13 @@ public class AccountService {
     public static Account toAccount(AccountDto accountDto){
         var account = new Account();
 
-        account.setFirstName(accountDto.firstName);
-        account.setLastName(accountDto.lastName);
-        account.setAddress(accountDto.address);
-        account.setEmail(accountDto.email);
-        account.setTelephoneNumber(accountDto.telephoneNumber);
-        account.setUsername(accountDto.username);
+        account.setFirstName(accountDto.getFirstName());
+        account.setLastName(accountDto.getLastName());
+        account.setAddress(accountDto.getAddress());
+        account.setEmail(accountDto.getEmail());
+        account.setTelephoneNumber(accountDto.getTelephoneNumber());
+        account.setUsername(accountDto.getUsername());
+        account.setId(accountDto.getId());
 
         return account;
     }

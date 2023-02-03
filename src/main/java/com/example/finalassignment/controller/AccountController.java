@@ -1,7 +1,6 @@
 package com.example.finalassignment.controller;
 
 import com.example.finalassignment.dto.AccountDto;
-import com.example.finalassignment.repositories.UserRepository;
 import com.example.finalassignment.service.AccountService;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -46,8 +45,8 @@ public class AccountController {
         return ResponseEntity.ok(accountService.getAccounts());
     }
 
-    @GetMapping("/{username}")
-    public ResponseEntity<AccountDto> getAccount(@PathVariable ("username") Long id) {
+    @GetMapping("/{id}")
+    public ResponseEntity<AccountDto> getAccount(@PathVariable ("id") Long id) {
         AccountDto optionalAccount = accountService.getAccount(id);
 
         return ResponseEntity.ok().body(optionalAccount);
@@ -65,10 +64,16 @@ public class AccountController {
     }
 
     @PutMapping("/{id}")
-    public AccountDto updateUser(@PathVariable("id") Long id, @RequestBody AccountDto dto) {
+    public AccountDto updateUser(@PathVariable("id") Long id,  @RequestBody AccountDto dto) {
         accountService.updateAccount(id, dto);
         return dto;
-    }
+     }
+
+//    @PutMapping("/{email}")
+//    public AccountDto updateUser(@PathVariable String email,  @RequestBody AccountDto dto) {
+//        accountService.updateAccount(email, dto);
+//        return dto;
+//    }
 }
 
 

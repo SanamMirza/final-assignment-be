@@ -4,6 +4,7 @@ import com.example.finalassignment.dto.AppointmentDto;
 import com.example.finalassignment.service.AppointmentService;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.core.parameters.P;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
@@ -23,8 +24,8 @@ public class AppointmentController {
         this.appointmentService = appointmentService;
     }
 
-    @PostMapping("")
-    public ResponseEntity<String> createAppointment(@Valid @RequestBody AppointmentDto appointmentdto, BindingResult br) {
+    @PostMapping("/{userId}")
+    public ResponseEntity<Object> createAppointment(@Valid @RequestBody AppointmentDto appointmentdto, BindingResult br) {
         if (br.hasErrors()) {
             String errorString = getErrorString(br);
             return new ResponseEntity<>(errorString, HttpStatus.BAD_REQUEST);
@@ -34,8 +35,21 @@ public class AppointmentController {
                     .fromCurrentContextPath()
                     .path("/appointments/" + createdId)
                     .toUriString());
-            return ResponseEntity.created(uri).body("Appointment created");
+            return ResponseEntity.created(uri).body(createdId);
         }
+    }
+
+    @PutMapping("/{id}/{accountId}")
+    public ResponseEntity<AppointmentDto> assignAppointmentToUser(@PathVariable Long id, @PathVariable Long accountId) {
+        return ResponseEntity.ok(appointmentService.assignAppointmentToUser(id, accountId));
+    }
+
+
+    @GetMapping("/{id}")
+    public ResponseEntity<AppointmentDto> getAppointment(@PathVariable ("id") Long id) {
+        AppointmentDto optionalAppointment = appointmentService.getAppointment(id);
+
+        return ResponseEntity.ok().body(optionalAppointment);
     }
 
     @GetMapping("")

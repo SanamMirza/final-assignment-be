@@ -8,9 +8,9 @@ import com.example.finalassignment.model.Authority;
 import com.example.finalassignment.model.User;
 import com.example.finalassignment.repositories.AccountRepository;
 import com.example.finalassignment.repositories.UserRepository;
-import com.example.finalassignment.utils.RandomStringGenerator;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
+
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
@@ -50,6 +50,7 @@ public class UserService {
         return dto;
     }
 
+
     public boolean userExists(String username) {
         return userRepository.existsById(username);
     }
@@ -62,13 +63,13 @@ public class UserService {
         account.setFirstName(accountUserDto.getFirstName());
         account.setLastName(accountUserDto.getLastName());
         account.setAddress(accountUserDto.getAddress());
-        account.setEmail(accountUserDto.getEmail());
         account.setTelephoneNumber(accountUserDto.getTelephoneNumber());
 
         //Zelfde voor user (username en password)
         user.setUsername(accountUserDto.getUsername());
         user.setPassword(passwordEncoder.encode(accountUserDto.getPassword()));
-        //Account savedAccount = acountRespository.save(account)
+        user.setEmail(accountUserDto.getEmail());
+        //Account savedAccount = accountRespository.save(account)
         Account savedAccount = accountRepository.save(account);
         // user.setAccount(savedAccount)
         user.setAccount(savedAccount);
@@ -79,11 +80,6 @@ public class UserService {
         return newUser.getUsername();
 
     }
-
-//        String randomString = RandomStringGenerator.generateAlphaNumeric(20);
-//        userDto.setPassword(passwordEncoder.encode(userDto.getPassword()));
-//        User newUser = userRepository.save(toUser(userDto));
-//        return newUser.getUsername();
 
 
     public void deleteUser(String username) {
@@ -96,6 +92,7 @@ public class UserService {
         user.setPassword(newUser.getPassword());
         userRepository.save(user);
     }
+
 
     public Set<Authority> getAuthorities(String username) {
         if (!userRepository.existsById(username)) throw new UsernameNotFoundException(username);
@@ -135,6 +132,9 @@ public class UserService {
         dto.password = user.getPassword();
         dto.email = user.getEmail();
         dto.authorities = user.getAuthorities();
+        if(user.getAccount() != null) {
+            dto.setAccountDto(AccountService.fromAccount(user.getAccount()));
+        }
 
         return dto;
     }

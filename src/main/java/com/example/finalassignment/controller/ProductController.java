@@ -17,11 +17,12 @@ import static com.example.finalassignment.utils.Utils.getErrorString;
 @RestController
 @RequestMapping("/products")
 public class ProductController {
-    private final ProductService Productservice;
+    private final ProductService productService;
 
-    public ProductController(ProductService productservice) {
-        Productservice = productservice;
+    public ProductController(ProductService productService) {
+        this.productService = productService;
     }
+
 
     @PostMapping("")
     public ResponseEntity<String> createProduct(@Valid @RequestBody ProductDto productDto, BindingResult br) {
@@ -30,7 +31,7 @@ public class ProductController {
             String errorString = getErrorString(br);
             return new ResponseEntity<>(errorString, HttpStatus.BAD_REQUEST);
         } else {
-            Long createdId = Productservice.createProduct(productDto);
+            Long createdId = productService.createProduct(productDto);
             URI uri = URI.create(ServletUriComponentsBuilder
                     .fromCurrentContextPath()
                     .path("/products/" + createdId)
@@ -39,14 +40,21 @@ public class ProductController {
         }
     }
 
+    @GetMapping("/{id}")
+    public ResponseEntity<ProductDto> getProduct(@PathVariable ("id") Long id) {
+        ProductDto optionalProduct = productService.getProduct(id);
+
+        return ResponseEntity.ok().body(optionalProduct);
+    }
+
     @GetMapping("")
     public ResponseEntity<List<ProductDto>> getProducts() {
-        return ResponseEntity.ok(Productservice.getProducts());
+        return ResponseEntity.ok(productService.getProducts());
     }
 
     @DeleteMapping("/{id}")
     public ResponseEntity<ProductDto> deleteProduct(@PathVariable Long id) {
-        Productservice.deleteProduct(id);
+        productService.deleteProduct(id);
         return ResponseEntity.noContent().build();
     }
 }

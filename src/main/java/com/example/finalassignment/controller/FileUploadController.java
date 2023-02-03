@@ -14,9 +14,9 @@ import java.util.Collection;
 import java.util.List;
 import java.util.Objects;
 
-@CrossOrigin
+
 @RestController
-@RequestMapping("/fileuploads")
+@RequestMapping("/docs")
 public class FileUploadController {
     private final FileUploadService fileUploadService;
 

@@ -14,6 +14,21 @@ public class Appointment {
     private LocalDate appointmentDate;
     private LocalTime appointmentTime;
 
+    public Product getProduct() {
+        return product;
+    }
+
+    public void setProduct(Product product) {
+        this.product = product;
+    }
+
+    public Account getAccount() {
+        return account;
+    }
+
+    public void setAccount(Account account) {
+        this.account = account;
+    }
 
     @OneToOne
     @JoinColumn(name = "product_id", referencedColumnName = "id")

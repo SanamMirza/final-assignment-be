@@ -1,12 +1,11 @@
 package com.example.finalassignment.dto;
 
-import com.example.finalassignment.model.Appointment;
-import com.fasterxml.jackson.annotation.JsonIncludeProperties;
 import javax.validation.constraints.Email;
+import javax.validation.constraints.NotBlank;
+import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
-import java.util.List;
 
-public class AccountDto {
+public class AppointmentAccountDto {
     public String username;
     public Long id;
 
@@ -17,17 +16,11 @@ public class AccountDto {
     @Email
     public String email;
     public Long telephoneNumber;
-
-    @JsonIncludeProperties({"subject", "appointmentDate", "appointmentTime"})
-    private List<Appointment> appointments;
-
-    public Long getId() {
-        return id;
-    }
-
-    public void setId(Long id) {
-        this.id = id;
-    }
+    @NotBlank
+    public String subject;
+    @NotNull
+    public String appointmentDate;
+    public String appointmentTime;
 
     public String getUsername() {
         return username;
@@ -37,6 +30,13 @@ public class AccountDto {
         this.username = username;
     }
 
+    public Long getId() {
+        return id;
+    }
+
+    public void setId(Long id) {
+        this.id = id;
+    }
 
     public String getFirstName() {
         return firstName;
@@ -67,8 +67,9 @@ public class AccountDto {
     }
 
     public void setEmail(String email) {
-        this.email= email;
+        this.email = email;
     }
+
     public Long getTelephoneNumber() {
         return telephoneNumber;
     }
@@ -77,12 +78,27 @@ public class AccountDto {
         this.telephoneNumber = telephoneNumber;
     }
 
-    public List<Appointment> getAppointments() {
-        return appointments;
+    public String getSubject() {
+        return subject;
     }
 
-    public void setAppointments(List<Appointment> appointments) {
-        this.appointments = appointments;
+    public void setSubject(String subject) {
+        this.subject = subject;
     }
 
+    public String getAppointmentDate() {
+        return appointmentDate;
+    }
+
+    public void setAppointmentDate(String appointmentDate) {
+        this.appointmentDate = appointmentDate;
+    }
+
+    public String getAppointmentTime() {
+        return appointmentTime;
+    }
+
+    public void setAppointmentTime(String appointmentTime) {
+        this.appointmentTime = appointmentTime;
+    }
 }

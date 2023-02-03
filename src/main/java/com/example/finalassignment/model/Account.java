@@ -14,6 +14,7 @@ public class Account {
     private String firstName;
     private String lastName;
     private String address;
+    @Column(unique = true)
     private String email;
     private Long telephoneNumber;
 
@@ -85,6 +86,8 @@ public class Account {
     }
 
     public String getUsername() { return username;}
+
+
 }
 
 

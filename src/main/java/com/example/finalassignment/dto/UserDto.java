@@ -10,6 +10,15 @@ public class UserDto {
 
     public String email;
     public Set<Authority> authorities;
+    public AccountDto accountDto;
+
+    public AccountDto getAccountDto() {
+        return accountDto;
+    }
+
+    public void setAccountDto(AccountDto accountDto) {
+        this.accountDto = accountDto;
+    }
 
     public String getUsername() {
         return username;

@@ -9,8 +9,10 @@ public class AppointmentDto {
     @NotBlank
     public String subject;
     @NotNull
-    public LocalDate appointmentDate;
-    public LocalTime appointmentTime;
+    public String appointmentDate;
+    public String appointmentTime;
+
+
 
     public String getSubject() {
         return subject;
@@ -20,19 +22,19 @@ public class AppointmentDto {
         this.subject = subject;
     }
 
-    public LocalDate getAppointmentDate() {
+        public String getAppointmentDate() {
         return appointmentDate;
     }
 
-    public void setAppointmentDate(LocalDate appointmentDate) {
+    public void setAppointmentDate(String appointmentDate) {
         this.appointmentDate = appointmentDate;
     }
 
-    public LocalTime getAppointmentTime() {
+    public String getAppointmentTime() {
         return appointmentTime;
     }
 
-    public void setAppointmentTime(LocalTime appointmentTime) {
+    public void setAppointmentTime(String appointmentTime) {
         this.appointmentTime = appointmentTime;
     }
 

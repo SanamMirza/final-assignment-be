@@ -1,5 +1,6 @@
 package com.example.finalassignment.controller;
 
+import com.example.finalassignment.dto.AccountDto;
 import com.example.finalassignment.dto.AccountUserDto;
 import com.example.finalassignment.dto.UserDto;
 import com.example.finalassignment.exception.BadRequestException;
@@ -8,7 +9,6 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
-import javax.validation.Valid;
 import java.net.URI;
 import java.util.List;
 import java.util.Map;
@@ -45,7 +45,7 @@ public class UserController {
     public ResponseEntity<AccountUserDto> createUser(@RequestBody AccountUserDto accountUserDto) {;
 
         String newUsername = userService.createUser(accountUserDto);
-        userService.addAuthority(newUsername, "AUTHORITY_USER");
+        userService.addAuthority(newUsername, "USER");
 
         URI location = ServletUriComponentsBuilder.fromCurrentRequest().path("/{username}")
                 .buildAndExpand(newUsername).toUri();
@@ -61,7 +61,7 @@ public class UserController {
         return ResponseEntity.noContent().build();
     }
 
-    @DeleteMapping(value = "/{username}")
+        @DeleteMapping(value = "/{username}")
     public ResponseEntity<Object> deleteCliënt(@PathVariable("username") String username) {
         userService.deleteUser(username);
         return ResponseEntity.noContent().build();
@@ -95,6 +95,7 @@ public class UserController {
         userService.updateUser(id, dto);
         return dto;
     }
+
 
 //    @PutMapping("/users/{id}/account")
 //    public void assignAccountToUser(@PathVariable ("id") Long id, @Valid @RequestBody UserDto userDto) {
