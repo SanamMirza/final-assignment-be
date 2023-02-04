@@ -1,4 +1,5 @@
 package com.example.finalassignment.service;
+import com.example.finalassignment.dto.AccountDto;
 import com.example.finalassignment.dto.AccountUserDto;
 import com.example.finalassignment.dto.UserDto;
 import com.example.finalassignment.exception.RecordNotFoundException;
@@ -64,6 +65,8 @@ public class UserService {
         account.setLastName(accountUserDto.getLastName());
         account.setAddress(accountUserDto.getAddress());
         account.setTelephoneNumber(accountUserDto.getTelephoneNumber());
+        account.setEmail(accountUserDto.getEmail());
+        account.setUsername(accountUserDto.getUsername());
 
         //Zelfde voor user (username en password)
         user.setUsername(accountUserDto.getUsername());
@@ -80,6 +83,8 @@ public class UserService {
         return newUser.getUsername();
 
     }
+
+
 
 
     public void deleteUser(String username) {
@@ -122,6 +127,7 @@ public class UserService {
         userRepository.save(user);
         return userDto;
     }
+
 
 
     public static UserDto fromUser(User user){

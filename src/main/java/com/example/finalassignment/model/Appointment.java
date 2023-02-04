@@ -11,8 +11,8 @@ public class Appointment {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
     private String subject;
-    private LocalDate appointmentDate;
-    private LocalTime appointmentTime;
+    private String appointmentDate;
+    private String appointmentTime;
 
     public Product getProduct() {
         return product;
@@ -55,19 +55,19 @@ public class Appointment {
         this.subject = subject;
     }
 
-    public LocalDate getAppointmentDate() {
+    public String getAppointmentDate() {
         return appointmentDate;
     }
 
-    public void setAppointmentDate(LocalDate appointmentDate) {
+    public void setAppointmentDate(String appointmentDate) {
         this.appointmentDate = appointmentDate;
     }
 
-    public LocalTime getAppointmentTime() {
+    public String getAppointmentTime() {
         return appointmentTime;
     }
 
-    public void setAppointmentTime(LocalTime appointmentTime) {
+    public void setAppointmentTime(String appointmentTime) {
         this.appointmentTime = appointmentTime;
     }
 }

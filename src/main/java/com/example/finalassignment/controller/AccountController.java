@@ -24,21 +24,21 @@ public class AccountController {
         this.accountService = accountService;
     }
 
-    @PostMapping("")
-    public ResponseEntity<String> createAccount(@Valid @RequestBody AccountDto accountDto, BindingResult br) {
-
-        if (br.hasErrors()) {
-            String errorString = getErrorString(br);
-            return new ResponseEntity<>(errorString, HttpStatus.BAD_REQUEST);
-        } else {
-            Long createdId = accountService.createAccount(accountDto);
-            URI uri = URI.create(ServletUriComponentsBuilder
-                    .fromCurrentContextPath()
-                    .path("/accounts/" + createdId)
-                    .toUriString());
-            return ResponseEntity.created(uri).body("Account created");
-        }
-    }
+//    @PostMapping("")
+//    public ResponseEntity<String> createAccount(@Valid @RequestBody AccountDto accountDto, BindingResult br) {
+//
+//        if (br.hasErrors()) {
+//            String errorString = getErrorString(br);
+//            return new ResponseEntity<>(errorString, HttpStatus.BAD_REQUEST);
+//        } else {
+//            Long createdId = accountService.createAccount(accountDto);
+//            URI uri = URI.create(ServletUriComponentsBuilder
+//                    .fromCurrentContextPath()
+//                    .path("/accounts/" + createdId)
+//                    .toUriString());
+//            return ResponseEntity.created(uri).body("Account created");
+//        }
+//    }
 
     @GetMapping("")
     public ResponseEntity<List<AccountDto>> getAccounts() {
@@ -69,11 +69,6 @@ public class AccountController {
         return dto;
      }
 
-//    @PutMapping("/{email}")
-//    public AccountDto updateUser(@PathVariable String email,  @RequestBody AccountDto dto) {
-//        accountService.updateAccount(email, dto);
-//        return dto;
-//    }
 }
 
 

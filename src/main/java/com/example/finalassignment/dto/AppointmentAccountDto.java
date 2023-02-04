@@ -1,5 +1,7 @@
 package com.example.finalassignment.dto;
 
+import com.example.finalassignment.model.Product;
+
 import javax.validation.constraints.Email;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
@@ -21,6 +23,7 @@ public class AppointmentAccountDto {
     @NotNull
     public String appointmentDate;
     public String appointmentTime;
+    public String title;
 
     public String getUsername() {
         return username;
@@ -101,4 +104,14 @@ public class AppointmentAccountDto {
     public void setAppointmentTime(String appointmentTime) {
         this.appointmentTime = appointmentTime;
     }
+
+    public String getTitle() {
+        return title;
+    }
+
+    public void setTitle(String title) {
+        this.title = title;
+    }
+
+
 }

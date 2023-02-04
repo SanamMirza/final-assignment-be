@@ -25,7 +25,7 @@ public class FileUploadController {
     }
 
 
-    @PostMapping("single/upload")
+    @PostMapping("/single/upload")
     public FileUploadResponse singleFileUpload(@RequestParam("file") MultipartFile file) throws IOException {
 
 
@@ -39,7 +39,7 @@ public class FileUploadController {
     }
 
     //    get for single download
-    @GetMapping("/download/{fileName}")
+    @GetMapping("/downloadFromDB/{fileName}")
     ResponseEntity<byte[]> downLoadSingleFile(@PathVariable String fileName, HttpServletRequest request) {
 
         return fileUploadService.singleFileDownload(fileName, request);

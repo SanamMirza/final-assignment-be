@@ -15,6 +15,7 @@ import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.transaction.Transactional;
 import java.io.IOException;
 import java.net.MalformedURLException;
 import java.util.*;
@@ -44,7 +45,7 @@ public class FileUploadService {
         return fileUpload;
 
     }
-
+    @Transactional
     public ResponseEntity<byte[]> singleFileDownload(String fileName, HttpServletRequest request){
 
         FileUpload fileUpload = fileUploadRepository.findByFileName(fileName);

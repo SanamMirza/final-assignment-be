@@ -18,9 +18,9 @@ public class Account {
     private String email;
     private Long telephoneNumber;
 
-    @OneToMany(mappedBy = "account")
+    @OneToMany(mappedBy = "account", cascade = CascadeType.ALL)
     private List<Appointment> appointment;
-    @OneToMany(mappedBy = "account")
+    @OneToMany(mappedBy = "account", cascade = CascadeType.ALL)
     private List<FileUpload> fileUpload;
     @OneToOne(mappedBy = "account")
     private User user;
