@@ -53,13 +53,13 @@ public class UserController {
         return ResponseEntity.created(location).build();
     }
 
-//    @PutMapping(value = "/{username}")
-//    public ResponseEntity<UserDto> updateCliënt(@PathVariable("username") String username, @RequestBody UserDto dto) {
-//
-//        userService.updateUser(username, dto);
-//
-//        return ResponseEntity.noContent().build();
-//    }
+    @PutMapping(value = "/{username}")
+    public ResponseEntity<UserDto> updateCliënt(@PathVariable("username") String username, @RequestBody UserDto dto) {
+
+        userService.updateUser(username, dto);
+
+        return ResponseEntity.noContent().build();
+    }
 
         @DeleteMapping(value = "/{username}")
     public ResponseEntity<Object> deleteCliënt(@PathVariable("username") String username) {
@@ -96,16 +96,6 @@ public class UserController {
         return dto;
     }
 
-//    @PutMapping("/{id}")
-//    public AccountDto updateUserAccount(@PathVariable ("username") String username, Long id, AccountDto newAccount) {
-//        userService.updateUserAccount(username, id, newAccount);
-//        return newAccount;
-//    }
-
-//    @PutMapping("/users/{id}/account")
-//    public void assignAccountToUser(@PathVariable ("id") Long id, @Valid @RequestBody UserDto userDto) {
-//        userService.assignAccountToUser(id, userDto.username);
-//    }
 }
 
 

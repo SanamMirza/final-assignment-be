@@ -8,10 +8,7 @@ import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
 import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
-import java.util.Collection;
-import java.util.List;
 import java.util.Objects;
 
 
@@ -35,40 +32,18 @@ public class FileUploadController {
 
         String contentType = file.getContentType();
 
-        return new FileUploadResponse(fileUpload.getFileName(), url, contentType );
+        return new FileUploadResponse(fileUpload.getFileName(), url, contentType);
     }
 
-    //    get for single download
     @GetMapping("/downloadFromDB/{fileName}")
     ResponseEntity<byte[]> downLoadSingleFile(@PathVariable String fileName, HttpServletRequest request) {
 
         return fileUploadService.singleFileDownload(fileName, request);
     }
-
-    //    post for multiple uploads to database
-    @PostMapping("/multiple/upload")
-    List<FileUploadResponse> multipleUpload(@RequestParam("files") MultipartFile [] files) {
-
-        if(files.length > 7) {
-            throw new RuntimeException("to many files selected");
-        }
-
-        return fileUploadService.createMultipleUpload(files);
-
-    }
-
-    @GetMapping("zipDownload")
-    public void zipDownload(@RequestBody String[] files, HttpServletResponse response) throws IOException {
-
-        fileUploadService.getZipDownload(files, response);
-
-    }
-
-    @GetMapping("/getAll/db")
-    public Collection<FileUpload> getAllFromDB(){
-        return fileUploadService.getALlFromDB();
-    }
 }
+
+
+
 
 
 

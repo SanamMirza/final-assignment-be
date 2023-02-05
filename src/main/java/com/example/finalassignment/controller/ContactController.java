@@ -1,7 +1,6 @@
 package com.example.finalassignment.controller;
 
 import com.example.finalassignment.dto.ContactDto;
-import com.example.finalassignment.model.Contact;
 import com.example.finalassignment.service.ContactService;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;

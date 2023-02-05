@@ -29,19 +29,6 @@ public class AccountService {
         this.passwordEncoder = passwordEncoder;
     }
 
-    public Long createAccount (AccountDto accountDto) {
-        Account newAccount = new Account();
-
-        newAccount.setFirstName(accountDto.getFirstName());
-        newAccount.setLastName(accountDto.getLastName());
-        newAccount.setAddress(accountDto.getAddress());
-        newAccount.setTelephoneNumber(accountDto.getTelephoneNumber());
-        newAccount.setEmail(accountDto.getEmail());
-
-        return accountRepository.save(newAccount).getId();
-
-    }
-
     public List<AccountDto> getAccounts() {
         List<Account> allAccounts = accountRepository.findAll();
         List<AccountDto> accountDtoList = new ArrayList<>();
@@ -79,23 +66,6 @@ public class AccountService {
     }
 
 
-
-    public void assignUserToAccount(Long id, String userId) {
-        var optionalAccount = accountRepository.findById(id);
-        var optionalUser = userRepository.findById(userId);
-
-        if (optionalAccount.isPresent() && optionalUser.isPresent()) {
-            var account = optionalAccount.get();
-            var user = optionalUser.get();
-
-            account.setUser(user);
-            accountRepository.save(account);
-            user.setAccount(account);
-            userRepository.save(user);
-        } else {
-            throw new RecordNotFoundException("Record not found!");
-        }
-    }
 
     public AccountDto addAccount(AccountDto accountDto) {
         Account account =  toAccount(accountDto);

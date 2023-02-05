@@ -50,62 +50,13 @@ public class FileUploadService {
 
         FileUpload fileUpload = fileUploadRepository.findByFileName(fileName);
 
-//        this mediaType decides witch type you accept if you only accept 1 type
-//        MediaType contentType = MediaType.IMAGE_JPEG;
-//        this is going to accept multiple types
-
         String mimeType = request.getServletContext().getMimeType(fileUpload.getFileName());
 
-//        for download attachment use next line
-//        return ResponseEntity.ok().contentType(contentType).header(HttpHeaders.CONTENT_DISPOSITION, "attachment;fileName=" + resource.getFilename()).body(resource);
-//        for showing image in browser
+
         return ResponseEntity.ok().header(HttpHeaders.CONTENT_DISPOSITION, "inline;fileName=" + fileUpload.getFileName()).body(fileUpload.getUploadFile());
 
     }
 
-    public List<FileUploadResponse> createMultipleUpload(MultipartFile[] files){
-        List<FileUploadResponse> uploadResponseList = new ArrayList<>();
-        Arrays.stream(files).forEach(file -> {
-
-            String name = StringUtils.cleanPath(Objects.requireNonNull(file.getOriginalFilename()));
-            FileUpload fileUpload = new FileUpload();
-            fileUpload.setFileName(name);
-            try {
-                fileUpload.setUploadFile(file.getBytes());
-            } catch (IOException e) {
-                e.printStackTrace();
-            }
-
-            fileUploadRepository.save(fileUpload);
-
-//            next line makes url. example "http://localhost:8080/download/naam.jpg"
-            String url = ServletUriComponentsBuilder.fromCurrentContextPath().path("/downloadFromDB/").path(name).toUriString();
-
-            String contentType = file.getContentType();
-
-            FileUploadResponse response = new FileUploadResponse(name, contentType, url);
-
-            uploadResponseList.add(response);
-        });
-        return uploadResponseList;
-    }
-
-    public void getZipDownload(String[] files, HttpServletResponse response) throws IOException {
-        try (ZipOutputStream zos = new ZipOutputStream(response.getOutputStream())) {
-            Arrays.stream(files).forEach(file -> {
-                try {
-                    createZipEntry(file, zos);
-                } catch (IOException e) {
-                    e.printStackTrace();
-                }
-            });
-
-            zos.finish();
-
-            response.setStatus(200);
-            response.addHeader(HttpHeaders.CONTENT_DISPOSITION, "attachment;fileName=zipfile");
-        }
-    }
 
     public Resource downLoadFileDatabase(String fileName) {
 
@@ -126,21 +77,6 @@ public class FileUploadService {
         }
     }
 
-    public void createZipEntry(String file, ZipOutputStream zos) throws IOException {
 
-        Resource resource = downLoadFileDatabase(file);
-        ZipEntry zipEntry = new ZipEntry(Objects.requireNonNull(resource.getFilename()));
-        try {
-            zipEntry.setSize(resource.contentLength());
-            zos.putNextEntry(zipEntry);
-
-            StreamUtils.copy(resource.getInputStream(), zos);
-
-            zos.closeEntry();
-        } catch (IOException e) {
-            System.out.println("some exception while zipping");
-        }
-
-    }
 }
 

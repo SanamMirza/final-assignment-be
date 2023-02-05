@@ -95,16 +95,7 @@ public class UserService {
         user.setPassword(newUser.getPassword());
         userRepository.save(user);
     }
-
-
-//    public void updateUserAccount(String username, Long id, AccountDto newAccount) {
-//        if (!userRepository.existsById(username)) throw new RecordNotFoundException("Record not found");
-//        User user = userRepository.findById(username).get();
-//        Account account = accountRepository.findById(id).get();
-//        account.setAddress(newAccount.getAddress());
-//        account.setTelephoneNumber(newAccount.getTelephoneNumber());
-//        accountRepository.save(account);
-//    }
+    
 
 
     public Set<Authority> getAuthorities(String username) {
