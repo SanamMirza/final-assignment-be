@@ -1,16 +1,26 @@
 package com.example.finalassignment.model;
 
-import jakarta.persistence.Entity;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.Id;
+import javax.persistence.*;
+import javax.validation.constraints.NotBlank;
+import java.util.List;
 
 @Entity
+@Table(name= "docs")
 public class FileUpload {
     @Id
     @GeneratedValue
     private Long id;
-    private byte uploadFile;
-    private byte form;
+
+    private String fileName;
+    @Lob
+    private byte[] uploadFile;
+//    @NotBlank
+//    private byte form;
+
+    @ManyToOne
+    @JoinColumn(name = "account_id", referencedColumnName = "id")
+    private Account account;
+
 
     public Long getId() {
         return id;
@@ -20,19 +30,27 @@ public class FileUpload {
         this.id = id;
     }
 
-    public byte getUploadFile() {
+    public String getFileName() {
+        return fileName;
+    }
+
+    public void setFileName(String fileName) {
+        this.fileName = fileName;
+    }
+
+    public byte[] getUploadFile() {
         return uploadFile;
     }
 
-    public void setUploadFile(byte uploadFile) {
+    public void setUploadFile(byte[] uploadFile) {
         this.uploadFile = uploadFile;
     }
 
-    public byte getForm() {
-        return form;
-    }
-
-    public void setForm(byte form) {
-        this.form = form;
-    }
+//    public byte getForm() {
+//        return form;
+//    }
+//
+//    public void setForm(byte form) {
+//        this.form = form;
+//    }
 }

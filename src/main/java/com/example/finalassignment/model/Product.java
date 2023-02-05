@@ -1,15 +1,18 @@
 package com.example.finalassignment.model;
 
-import jakarta.persistence.Entity;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.Id;
+import javax.persistence.*;
 
 @Entity
+@Table(name= "products")
 public class Product {
     @Id
     @GeneratedValue
     private Long id;
     private String title;
+
+    @OneToOne (mappedBy = "product")
+    private Appointment appointment;
+
 
     public Long getId() {
         return id;
