@@ -12,7 +12,6 @@ import javax.validation.Valid;
 import java.net.URI;
 import java.util.List;
 
-import static com.example.finalassignment.utils.Utils.getErrorString;
 
 
 @RestController
@@ -64,10 +63,11 @@ public class AccountController {
     }
 
     @PutMapping("/{id}")
-    public AccountDto updateUser(@PathVariable("id") Long id,  @RequestBody AccountDto dto) {
+    public AccountDto updateAccount(@PathVariable("id") Long id,  @RequestBody AccountDto dto) {
         accountService.updateAccount(id, dto);
         return dto;
      }
+
 
 }
 

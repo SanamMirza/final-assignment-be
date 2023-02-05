@@ -25,7 +25,7 @@ public class AppointmentController {
         this.appointmentService = appointmentService;
     }
 
-    @PostMapping("/{}")
+    @PostMapping("/{username}")
     public ResponseEntity<Object> createAppointment(@Valid @RequestBody AppointmentDto appointmentDto, @PathVariable String username, BindingResult br) {
         if (br.hasErrors()) {
             String errorString = getErrorString(br);
@@ -42,8 +42,8 @@ public class AppointmentController {
 
 
     @GetMapping("/{id}")
-    public ResponseEntity<AppointmentDto> getAppointment(@PathVariable ("id") Long id) {
-        AppointmentDto optionalAppointment = appointmentService.getAppointment(id);
+    public ResponseEntity<AppointmentDto> getOneAppointment(@PathVariable ("id") Long id) {
+        AppointmentDto optionalAppointment = appointmentService.getOneAppointment(id);
 
         return ResponseEntity.ok().body(optionalAppointment);
     }

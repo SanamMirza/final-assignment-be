@@ -54,14 +54,14 @@ public class SpringSecurityConfig {
                 .antMatchers(HttpMethod.PUT, "/accounts/**").permitAll()
 
                 .antMatchers(HttpMethod.POST, "/appointments/**").permitAll()
-                .antMatchers(HttpMethod.GET, "/appointments/**", "/products/**").hasAnyAuthority("ADMIN", "USER")
+                .antMatchers(HttpMethod.GET, "/appointments/**").hasAnyAuthority("ADMIN", "USER")
                 .antMatchers(HttpMethod.DELETE, "/appointments/**", "/products/**").hasAuthority("ADMIN")
                 .antMatchers(HttpMethod.PUT, "/appointments").permitAll()
 
                 .antMatchers(HttpMethod.POST, "/products").permitAll()
                 .antMatchers(HttpMethod.GET, "/products/**").hasAnyAuthority("ADMIN", "USER")
                 .antMatchers(HttpMethod.DELETE, "/products/**").hasAuthority("ADMIN")
-                .antMatchers(HttpMethod.PUT, "/products").permitAll()
+                .antMatchers(HttpMethod.PUT, "/products/**").permitAll()
 
                 .antMatchers(HttpMethod.POST, "/docs/**").hasAuthority("USER")
                 .antMatchers(HttpMethod.GET, "/docs/**").hasAnyAuthority("USER", "ADMIN")

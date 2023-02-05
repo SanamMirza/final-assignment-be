@@ -63,19 +63,6 @@ public class AppointmentService {
 
 
 
-
-
-//        Appointment newAppointment = new Appointment();
-//
-//        newAppointment.setSubject(appointmentDto.getSubject());
-//        newAppointment.setAppointmentDate(localDate);
-//        newAppointment.setAppointmentTime(localTime);
-////        appointmentRepository.save(newAppointment).getId();
-////        assignAppointmentToUser(newAppointment.getId();
-//
-//        return appointmentRepository.save(newAppointment).getId();
-//    }
-
     public AppointmentDto assignAppointmentToUser(Long id, Long accountId) {
         Optional<Appointment> appointmentOptional = appointmentRepository.findById(id);
         Optional<Account> accountOptional = accountRepository.findById(accountId);
@@ -91,7 +78,7 @@ public class AppointmentService {
         }
     }
 
-    public AppointmentDto getAppointment(Long id) {
+    public AppointmentDto getOneAppointment(Long id) {
         AppointmentDto dto = new AppointmentDto();
         Optional<Appointment> appointment = appointmentRepository.findById(id);
 

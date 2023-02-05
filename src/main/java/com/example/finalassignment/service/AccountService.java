@@ -4,7 +4,6 @@ import com.example.finalassignment.dto.AccountDto;
 import com.example.finalassignment.exception.RecordNotFoundException;
 import com.example.finalassignment.exception.UsernameNotFoundException;
 import com.example.finalassignment.model.Account;
-import com.example.finalassignment.model.User;
 import com.example.finalassignment.repositories.AccountRepository;
 
 import com.example.finalassignment.repositories.UserRepository;
@@ -67,16 +66,16 @@ public class AccountService {
         return dto;
     }
 
-    public void deleteAccount (@RequestBody Long id) {
-        accountRepository.deleteById(id);
-    }
-
     public void updateAccount(Long id, AccountDto newAccount) {
         if (!accountRepository.existsById(id)) throw new RecordNotFoundException("Record not found");
         Account account = accountRepository.findById(id).get();
         account.setAddress(newAccount.getAddress());
         account.setTelephoneNumber(newAccount.getTelephoneNumber());
         accountRepository.save(account);
+    }
+
+    public void deleteAccount (@RequestBody Long id) {
+        accountRepository.deleteById(id);
     }
 
 
