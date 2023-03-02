@@ -1,28 +1,18 @@
 package com.example.finalassignment.dto;
-
-import javax.validation.constraints.NotBlank;
+import com.example.finalassignment.model.Product;
 import javax.validation.constraints.NotNull;
-import java.time.LocalDate;
-import java.time.LocalTime;
 
 public class AppointmentDto {
-    @NotBlank
-    public String subject;
     @NotNull
     public String appointmentDate;
     public String appointmentTime;
 
+    public Product product;
 
 
-    public String getSubject() {
-        return subject;
-    }
 
-    public void setSubject(String subject) {
-        this.subject = subject;
-    }
 
-        public String getAppointmentDate() {
+   public String getAppointmentDate() {
         return appointmentDate;
     }
 
@@ -38,6 +28,12 @@ public class AppointmentDto {
         this.appointmentTime = appointmentTime;
     }
 
+    public Product getProduct() {
+        return product;
+    }
 
+    public void setProduct(Product product) {
+        this.product = product;
+    }
 }
 

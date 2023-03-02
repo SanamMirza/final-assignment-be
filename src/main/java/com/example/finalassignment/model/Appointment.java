@@ -1,9 +1,8 @@
 package com.example.finalassignment.model;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
+
 import javax.persistence.*;
-import java.time.LocalDate;
-import java.time.LocalTime;
-import java.util.List;
 
 @Entity
 @Table(name= "appointments")
@@ -15,26 +14,11 @@ public class Appointment {
     private String appointmentDate;
     private String appointmentTime;
 
-    public Product getProduct() {
-        return product;
-    }
-
-    public void setProduct(Product product) {
-        this.product = product;
-    }
-
-    public Account getAccount() {
-        return account;
-    }
-
-    public void setAccount(Account account) {
-        this.account = account;
-    }
-
     @OneToOne
     @JoinColumn(name = "product_id", referencedColumnName = "id")
     private Product product;
 
+    @JsonBackReference
     @ManyToOne
     @JoinColumn(name = "account_id", referencedColumnName = "id")
     private Account account;
@@ -71,4 +55,12 @@ public class Appointment {
     public void setAppointmentTime(String appointmentTime) {
         this.appointmentTime = appointmentTime;
     }
+
+    public Product getProduct() { return product; }
+
+    public void setProduct(Product product) { this.product = product; }
+
+    public Account getAccount() { return account; }
+
+    public void setAccount(Account account) { this.account = account; }
 }

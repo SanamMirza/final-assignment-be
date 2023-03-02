@@ -1,6 +1,7 @@
 package com.example.finalassignment.dto;
 
 import com.example.finalassignment.model.Appointment;
+import com.example.finalassignment.model.FileUpload;
 import com.fasterxml.jackson.annotation.JsonIncludeProperties;
 import javax.validation.constraints.Email;
 import javax.validation.constraints.Size;
@@ -18,8 +19,11 @@ public class AccountDto {
     public String email;
     public Long telephoneNumber;
 
-    @JsonIncludeProperties({"subject", "appointmentDate", "appointmentTime"})
-    private List<Appointment> appointments;
+    @JsonIncludeProperties({"id", "subject", "appointmentDate", "appointmentTime"})
+    public List<Appointment> appointments;
+
+
+    public List<FileUpload> fileUploads;
 
     public Long getId() {
         return id;
@@ -85,4 +89,11 @@ public class AccountDto {
         this.appointments = appointments;
     }
 
+    public List<FileUpload> getFileUploads() {
+        return fileUploads;
+    }
+
+    public void setFileUploads(List<FileUpload> fileUploads) {
+        this.fileUploads = fileUploads;
+    }
 }

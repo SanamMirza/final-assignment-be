@@ -1,5 +1,4 @@
 package com.example.finalassignment.service;
-import com.example.finalassignment.dto.AccountDto;
 import com.example.finalassignment.dto.AccountUserDto;
 import com.example.finalassignment.dto.UserDto;
 import com.example.finalassignment.exception.RecordNotFoundException;
@@ -23,13 +22,15 @@ public class UserService {
     private final UserRepository userRepository;
     private final PasswordEncoder passwordEncoder;
     private final AccountRepository accountRepository;
+    private final AccountService accountService;
 
 
 
-    public UserService (PasswordEncoder passwordEncoder, UserRepository userRepository, AccountRepository accountRepository) {
+    public UserService (PasswordEncoder passwordEncoder, UserRepository userRepository, AccountRepository accountRepository, AccountService accountService) {
         this.passwordEncoder = passwordEncoder;
         this.userRepository = userRepository;
         this.accountRepository = accountRepository;
+        this.accountService = accountService;
     }
     public List<UserDto> getUsers() {
         List<UserDto> collection = new ArrayList<>();
@@ -128,7 +129,7 @@ public class UserService {
     }
 
 
-    public static UserDto fromUser(User user){
+    public UserDto fromUser(User user){
 
         var dto = new UserDto();
 
@@ -137,7 +138,7 @@ public class UserService {
         dto.email = user.getEmail();
         dto.authorities = user.getAuthorities();
         if(user.getAccount() != null) {
-            dto.setAccountDto(AccountService.fromAccount(user.getAccount()));
+            dto.setAccountDto(accountService.fromAccount(user.getAccount()));
         }
 
         return dto;

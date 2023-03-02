@@ -1,11 +1,9 @@
 package com.example.finalassignment.controller;
 
-import com.example.finalassignment.dto.AppointmentAccountDto;
 import com.example.finalassignment.dto.AppointmentDto;
 import com.example.finalassignment.service.AppointmentService;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.security.core.parameters.P;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
@@ -25,18 +23,18 @@ public class AppointmentController {
         this.appointmentService = appointmentService;
     }
 
-    @PostMapping("/{username}")
-    public ResponseEntity<Object> createAppointment(@Valid @RequestBody AppointmentDto appointmentDto, @PathVariable String username, BindingResult br) {
+    @PostMapping("/{username}/{id}")
+    public ResponseEntity<Object> createAppointment(@Valid @RequestBody AppointmentDto appointmentDto, @PathVariable String username, @PathVariable Long id,  BindingResult br) {
         if (br.hasErrors()) {
             String errorString = getErrorString(br);
             return new ResponseEntity<>(errorString, HttpStatus.BAD_REQUEST);
         } else {
-            Long createdId = appointmentService.createAppointment(appointmentDto, username);
+            Long createdId = appointmentService.createAppointment(appointmentDto, username, id);
             URI uri = URI.create(ServletUriComponentsBuilder
                     .fromCurrentContextPath()
                     .path("/appointments/" + createdId)
                     .toUriString());
-            return ResponseEntity.created(uri).body(createdId);
+            return ResponseEntity.created(uri).body("Appointment created");
         }
     }
 

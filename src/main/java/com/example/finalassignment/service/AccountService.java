@@ -1,32 +1,30 @@
 package com.example.finalassignment.service;
 
 import com.example.finalassignment.dto.AccountDto;
+import com.example.finalassignment.dto.AppointmentDto;
 import com.example.finalassignment.exception.RecordNotFoundException;
 import com.example.finalassignment.exception.UsernameNotFoundException;
 import com.example.finalassignment.model.Account;
+import com.example.finalassignment.model.Appointment;
+import com.example.finalassignment.model.User;
 import com.example.finalassignment.repositories.AccountRepository;
-
 import com.example.finalassignment.repositories.UserRepository;
-import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.web.bind.annotation.RequestBody;
 
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Optional;
+import java.util.*;
 
 
 @Service
 public class AccountService {
     private final AccountRepository accountRepository;
     private final UserRepository userRepository;
-    private final PasswordEncoder passwordEncoder;
 
 
-    public AccountService(AccountRepository accountRepository, UserRepository userRepository, PasswordEncoder passwordEncoder) {
+
+    public AccountService(AccountRepository accountRepository, UserRepository userRepository) {
         this.accountRepository = accountRepository;
         this.userRepository = userRepository;
-        this.passwordEncoder = passwordEncoder;
     }
 
     public List<AccountDto> getAccounts() {
@@ -53,11 +51,25 @@ public class AccountService {
         return dto;
     }
 
+    public Long createAccount (AccountDto accountDto) {
+        Account newAccount = new Account();
+        newAccount.setFirstName(accountDto.getFirstName());
+        newAccount.setLastName(accountDto.getLastName());
+        newAccount.setAddress(accountDto.getAddress());
+        newAccount.setEmail(accountDto.getEmail());
+        newAccount.setUsername(accountDto.getUsername());
+        newAccount.setTelephoneNumber(accountDto.getTelephoneNumber());
+
+        return newAccount.getId();
+    }
+
     public void updateAccount(Long id, AccountDto newAccount) {
         if (!accountRepository.existsById(id)) throw new RecordNotFoundException("Record not found");
         Account account = accountRepository.findById(id).get();
+//        if (!userRepository.existsById(username)) throw new RecordNotFoundException("Record not found");
+//        User user = userRepository.findById(username).get();
+//        Account account = user.getAccount();
         account.setAddress(newAccount.getAddress());
-        account.setTelephoneNumber(newAccount.getTelephoneNumber());
         accountRepository.save(account);
     }
 
@@ -66,12 +78,12 @@ public class AccountService {
     }
 
 
-
     public AccountDto addAccount(AccountDto accountDto) {
         Account account =  toAccount(accountDto);
         accountRepository.save(account);
         return accountDto;
     }
+
 
     public static AccountDto fromAccount(Account account){
         var dto = new AccountDto();
@@ -81,6 +93,8 @@ public class AccountService {
         dto.address = account.getAddress();
         dto.email = account.getEmail();
         dto.telephoneNumber = account.getTelephoneNumber();
+        dto.appointments =account.getAppointment();
+        dto.fileUploads = account.getFileUpload();
         dto.id = account.getId();
 
         if(account.getUser()!=null) {
@@ -103,9 +117,5 @@ public class AccountService {
 
         return account;
     }
-
-
-
-
 
 }

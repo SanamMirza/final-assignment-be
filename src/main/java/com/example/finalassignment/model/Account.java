@@ -1,8 +1,13 @@
 package com.example.finalassignment.model;
 
 
+import com.fasterxml.jackson.annotation.JsonManagedReference;
+import org.hibernate.annotations.LazyCollection;
+import org.hibernate.annotations.LazyCollectionOption;
+
 import javax.persistence.*;
 import java.util.List;
+import java.util.Set;
 
 @Entity
 @Table(name= "accounts")
@@ -19,9 +24,12 @@ public class Account {
     private String email;
     private Long telephoneNumber;
 
+    @JsonManagedReference
     @OneToMany(mappedBy = "account", cascade = CascadeType.ALL)
     private List<Appointment> appointment;
-    @OneToMany(mappedBy = "account", cascade = CascadeType.ALL)
+
+    @JsonManagedReference
+    @OneToMany(mappedBy = "account", cascade = CascadeType.ALL, fetch = FetchType.EAGER)
     private List<FileUpload> fileUpload;
     @OneToOne(mappedBy = "account")
     private User user;
@@ -88,7 +96,21 @@ public class Account {
 
     public String getUsername() { return username;}
 
+    public List<Appointment> getAppointment() {
+        return appointment;
+    }
 
+    public void setAppointment(List<Appointment> appointment) {
+        this.appointment = appointment;
+    }
+
+    public List<FileUpload> getFileUpload() {
+        return fileUpload;
+    }
+
+    public void setFileUpload(List<FileUpload> fileUpload) {
+        this.fileUpload = fileUpload;
+    }
 }
 
 

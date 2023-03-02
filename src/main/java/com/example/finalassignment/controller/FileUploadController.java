@@ -22,17 +22,17 @@ public class FileUploadController {
     }
 
 
-    @PostMapping("/single/upload")
-    public FileUploadResponse singleFileUpload(@RequestParam("file") MultipartFile file) throws IOException {
+    @PostMapping("/single/upload/{username}")
+    public FileUploadResponse singleFileUpload(@RequestParam("file") MultipartFile file, @PathVariable String username) throws IOException {
 
 
         // next line makes url. example "http://localhost:8080/download/naam.jpg"
-        FileUpload fileUpload = fileUploadService.uploadFileDocument(file);
+        FileUpload fileUpload = fileUploadService.uploadFileDocument(file, username);
         String url = ServletUriComponentsBuilder.fromCurrentContextPath().path("/downloadFrom/").path(Objects.requireNonNull(file.getOriginalFilename())).toUriString();
 
         String contentType = file.getContentType();
 
-        return new FileUploadResponse(fileUpload.getFileName(), url, contentType);
+        return new FileUploadResponse(fileUpload.getFileName(), contentType, url);
     }
 
     @GetMapping("/downloadFromDB/{fileName}")
@@ -40,6 +40,11 @@ public class FileUploadController {
 
         return fileUploadService.singleFileDownload(fileName, request);
     }
+
+//    @GetMapping("/getAll/db")
+//    public Collection<FileUpload> getAllFromDB(){
+//        return fileUploadService.getALlFromDB();
+//    }
 }
 
 

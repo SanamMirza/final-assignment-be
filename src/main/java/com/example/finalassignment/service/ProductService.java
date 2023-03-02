@@ -1,9 +1,7 @@
 package com.example.finalassignment.service;
 
-import com.example.finalassignment.dto.AppointmentDto;
 import com.example.finalassignment.dto.ProductDto;
 import com.example.finalassignment.exception.RecordNotFoundException;
-import com.example.finalassignment.model.Appointment;
 import com.example.finalassignment.model.Product;
 import com.example.finalassignment.repositories.ProductRepository;
 import org.springframework.stereotype.Service;
@@ -24,7 +22,7 @@ public class ProductService {
     public Long createProduct(ProductDto productDto) {
         Product newProduct = new Product();
 
-        newProduct.setTitle((productDto.title));
+        newProduct.setTitle(productDto.getTitle());
 
         return newProduct.getId();
 

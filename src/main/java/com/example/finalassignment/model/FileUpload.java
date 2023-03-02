@@ -1,5 +1,7 @@
 package com.example.finalassignment.model;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
+
 import javax.persistence.*;
 import javax.validation.constraints.NotBlank;
 import java.util.List;
@@ -14,9 +16,8 @@ public class FileUpload {
     private String fileName;
     @Lob
     private byte[] uploadFile;
-//    @NotBlank
-//    private byte form;
 
+    @JsonBackReference
     @ManyToOne
     @JoinColumn(name = "account_id", referencedColumnName = "id")
     private Account account;
@@ -46,11 +47,11 @@ public class FileUpload {
         this.uploadFile = uploadFile;
     }
 
-//    public byte getForm() {
-//        return form;
-//    }
-//
-//    public void setForm(byte form) {
-//        this.form = form;
-//    }
+    public Account getAccount() {
+        return account;
+    }
+
+    public void setAccount(Account account) {
+        this.account = account;
+    }
 }

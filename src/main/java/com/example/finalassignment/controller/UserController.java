@@ -46,9 +46,13 @@ public class UserController {
 
         String newUsername = userService.createUser(accountUserDto);
         userService.addAuthority(newUsername, "USER");
+        userService.addAuthority(newUsername, "ADMIN");
 
-        URI location = ServletUriComponentsBuilder.fromCurrentRequest().path("/{username}")
-                .buildAndExpand(newUsername).toUri();
+        URI location = ServletUriComponentsBuilder
+                .fromCurrentRequest()
+                .path("/{username}")
+                .buildAndExpand(newUsername)
+                .toUri();
 
         return ResponseEntity.created(location).build();
     }
@@ -62,7 +66,7 @@ public class UserController {
     }
 
         @DeleteMapping(value = "/{username}")
-    public ResponseEntity<Object> deleteCliënt(@PathVariable("username") String username) {
+        public ResponseEntity<Object> deleteCliënt(@PathVariable("username") String username) {
         userService.deleteUser(username);
         return ResponseEntity.noContent().build();
     }
