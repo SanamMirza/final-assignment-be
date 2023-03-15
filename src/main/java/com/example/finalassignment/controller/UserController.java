@@ -1,6 +1,5 @@
 package com.example.finalassignment.controller;
 
-import com.example.finalassignment.dto.AccountDto;
 import com.example.finalassignment.dto.AccountUserDto;
 import com.example.finalassignment.dto.UserDto;
 import com.example.finalassignment.exception.BadRequestException;
@@ -46,7 +45,6 @@ public class UserController {
 
         String newUsername = userService.createUser(accountUserDto);
         userService.addAuthority(newUsername, "USER");
-        userService.addAuthority(newUsername, "ADMIN");
 
         URI location = ServletUriComponentsBuilder
                 .fromCurrentRequest()
@@ -65,8 +63,8 @@ public class UserController {
         return ResponseEntity.noContent().build();
     }
 
-        @DeleteMapping(value = "/{username}")
-        public ResponseEntity<Object> deleteCliënt(@PathVariable("username") String username) {
+    @DeleteMapping(value = "/{username}")
+    public ResponseEntity<Object> deleteCliënt(@PathVariable("username") String username) {
         userService.deleteUser(username);
         return ResponseEntity.noContent().build();
     }

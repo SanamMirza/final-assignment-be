@@ -6,7 +6,18 @@ INSERT INTO users (username, password, email)
 VALUES ('bart', '$2a$12$l7rTl2TJhGIKQuONtHEBvuYQY3VB9ZYxyBkUO9/Cft1vd5fTe5KrO', 'bart@mail.nl');
 INSERT INTO authorities (username, authority)
 VALUES ('bart', 'USER');
-
+INSERT INTO users (username, password, email)
+VALUES ('koen', '$2a$12$l7rTl2TJhGIKQuONtHEBvuYQY3VB9ZYxyBkUO9/Cft1vd5fTe5KrO', 'bart@mail.nl');
+INSERT INTO authorities (username, authority)
+VALUES ('koen', 'USER');
+INSERT INTO users (username, password, email)
+VALUES ('sam', '$2a$12$l7rTl2TJhGIKQuONtHEBvuYQY3VB9ZYxyBkUO9/Cft1vd5fTe5KrO', 'bart@mail.nl');
+INSERT INTO authorities (username, authority)
+VALUES ('sam', 'USER');
+INSERT INTO users (username, password, email)
+VALUES ('mark', '$2a$12$l7rTl2TJhGIKQuONtHEBvuYQY3VB9ZYxyBkUO9/Cft1vd5fTe5KrO', 'bart@mail.nl');
+INSERT INTO authorities (username, authority)
+VALUES ('mark', 'USER');
 
 INSERT INTO users (username, password, email)
 VALUES ('ans', '$2a$12$jx9SHj7xINWKVSpERMLZ8uqo0RAU5uH9s8B4LmNhXT9Bylfc5b/.S', 'ans@mail.nl');
@@ -20,7 +31,13 @@ VALUES ('robert', 'ADMIN');
 INSERT INTO accounts (username, id, first_name, last_name, address, email, telephone_number)
 VALUES ('henk', '100', 'henk', 'hendriks', 'henklaan 1 1111 hh utrecht', 'henk@mail.nl', '06123456789');
 INSERT INTO accounts (username, id, first_name, last_name, address, email, telephone_number)
-VALUES ('bart', '101', 'bart', 'bartman', 'bartlaan 1 1111 bb utrecht', 'bart@mail.nl', '06123456789');
+VALUES ('bart', '101', 'bart', 'bartman', 'bartlaan 10 1112 bb utrecht', 'bart@mail.nl', '06123456789');
+INSERT INTO accounts (username, id, first_name, last_name, address, email, telephone_number)
+VALUES ('koen', '110', 'koen', 'mensink', 'koenlaan 11 1113 kk almere', 'koen@mail.nl', '06123456789');
+INSERT INTO accounts (username, id, first_name, last_name, address, email, telephone_number)
+VALUES ('sam', '111', 'sam', 'barnhoorn', 'samstraat 15 1115 ss soest', 'sam@mail.nl', '06123456789');
+INSERT INTO accounts (username, id, first_name, last_name, address, email, telephone_number)
+VALUES ('mark', '112', 'mark', 'rensen', 'markstraat 16 1116 mm maastricht', 'mark@mail.nl', '06123456789');
 
 INSERT INTO accounts (username, id, first_name, last_name, address, email, telephone_number)
 VALUES ('ans', '200', 'ans', 'appelman', 'ansstraat 1 1111 aa amsterdam', 'ans@mail.nl', '06123456789');
@@ -31,6 +48,12 @@ UPDATE users SET account_id = '100'
 WHERE username='henk';
 UPDATE users SET account_id = '101'
 WHERE username='bart';
+UPDATE users SET account_id = '110'
+WHERE username='koen';
+UPDATE users SET account_id = '111'
+WHERE username='sam';
+UPDATE users SET account_id = '112'
+WHERE username='mark';
 UPDATE users SET account_id = '200'
 WHERE username='ans';
 UPDATE users SET account_id = '201'

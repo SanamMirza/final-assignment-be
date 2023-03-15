@@ -84,45 +84,29 @@ public class AppointmentService {
         return appointmentDtoList;
     }
 
+    public void editAppointment(Long id, AppointmentDto newAppointment) {
+        if (!appointmentRepository.existsById(id)) throw new RecordNotFoundException("Appointment not found");
+        Appointment appointment = appointmentRepository.findById(id).get();
+        appointment.setProduct(newAppointment.getProduct());
+        appointment.setSubject(newAppointment.getSubject());
+        appointment.setAppointmentDate(newAppointment.getAppointmentDate());
+        appointment.setAppointmentTime(newAppointment.getAppointmentTime());
+
+        appointmentRepository.save(appointment);
+
+    }
+
     public void deleteAppointment (@RequestBody Long id) {
         appointmentRepository.deleteById(id);
     }
 
-//    public static AppointmentDto fromAppointment(Appointment appointment){
-//        var dto = new AppointmentDto();
-//
-//        dto.subject = appointment.getSubject();
-//        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd");
-//        LocalDate localDate = LocalDate.parse(appointment.getAppointmentDate());
-//        String date = localDate.format(formatter);
-////        DateTimeFormatter timeFormatter = DateTimeFormatter.ofPattern("H:mm:ss");
-////        LocalTime localTime = LocalTime.parse(appointment.getAppointmentTime());
-////        String time = localTime.format(timeFormatter);
-//        dto.setAppointmentDate(date);
-////        dto.setAppointmentTime(time);
-//
-//
-//        return dto;
-//    }
 
-//    public static Appointment toAppointment(AppointmentDto appointmentDto){
-//        var appointment = new Appointment();
-//
-//        appointment.setSubject(appointmentDto.getSubject());
-//        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd");
-//        LocalDate localDate = LocalDate.parse(appointmentDto.getAppointmentDate(), formatter);
-////        DateTimeFormatter timeFormatter = DateTimeFormatter.ofPattern("H:mm:ss");
-////        LocalTime localTime = LocalTime.parse(appointmentDto.getAppointmentTime(), timeFormatter);
-//        appointment.setAppointmentDate(localDate.format(formatter));
-////        appointment.setAppointmentTime(localTime.format(timeFormatter));
-//
-//
-//        return appointment;
-//    }
 
     public static AppointmentDto fromAppointment(Appointment appointment){
         var dto = new AppointmentDto();
 
+        dto.product = appointment.getProduct();
+        dto.subject = appointment.getSubject();
         dto.appointmentDate = appointment.getAppointmentDate();
         dto.appointmentTime = appointment.getAppointmentTime();
 
@@ -132,6 +116,7 @@ public class AppointmentService {
     public static Appointment toAppointment(AppointmentDto appointmentDto){
         var appointment = new Appointment();
 
+        appointment.setSubject(appointmentDto.getSubject());
         appointment.setAppointmentDate(appointmentDto.getAppointmentDate());
         appointment.setAppointmentTime(appointmentDto.getAppointmentTime());
 

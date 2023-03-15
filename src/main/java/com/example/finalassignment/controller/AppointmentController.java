@@ -51,6 +51,11 @@ public class AppointmentController {
         return ResponseEntity.ok(appointmentService.getAppointments());
     }
 
+    @PutMapping("/{id}")
+    public AppointmentDto editAppointment(@PathVariable("id") Long id, @RequestBody AppointmentDto appointmentDto) {
+        appointmentService.editAppointment(id, appointmentDto);
+        return appointmentDto;
+    }
 
     @DeleteMapping("/{id}")
     public ResponseEntity<AppointmentDto> deleteAppointment(@PathVariable Long id) {

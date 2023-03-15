@@ -57,7 +57,7 @@ public class SpringSecurityConfig {
                 .antMatchers(HttpMethod.POST, "/appointments/**").permitAll()
                 .antMatchers(HttpMethod.GET, "/appointments/**").permitAll()
                 .antMatchers(HttpMethod.DELETE, "/appointments/**").permitAll()
-                .antMatchers(HttpMethod.PUT, "/appointments").permitAll()
+                .antMatchers(HttpMethod.PUT, "/appointments/**").permitAll()
 
                 .antMatchers(HttpMethod.POST, "/products/**").permitAll()
                 .antMatchers(HttpMethod.GET, "/products/**").permitAll()
