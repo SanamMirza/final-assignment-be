@@ -9,11 +9,8 @@ import java.io.Serializable;
     public class Authority implements Serializable {
 
         @Id
-        @Column(nullable = false)
         private String username;
-
         @Id
-        @Column(nullable = false)
         private String authority;
 
 

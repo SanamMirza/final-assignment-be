@@ -5,6 +5,7 @@ import com.example.finalassignment.exception.RecordNotFoundException;
 import com.example.finalassignment.model.Contact;
 import com.example.finalassignment.repositories.ContactRepository;
 import org.springframework.stereotype.Service;
+import org.springframework.web.bind.annotation.RequestBody;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -27,23 +28,27 @@ public class ContactService {
         return collection;
     }
 
-    public ContactDto getContact(String email) {
-        ContactDto dto = new ContactDto();
-        Optional<Contact> contact = contactRepository.findById(email);
+    public ContactDto getContact(Long id) {
+        ContactDto dto;
+        Optional<Contact> contact = contactRepository.findById(id);
         if (contact.isPresent()) {
             dto = fromContact(contact.get());
         } else {
-            throw new RecordNotFoundException(email);
+            throw new RecordNotFoundException("contact form not found");
         }
         return dto;
     }
 
     public ContactDto createContact(ContactDto contactDto) {
 
-        Contact contact = toContact(contactDto);
-        contactRepository.save(contact);
+        Contact newContact = toContact(contactDto);
+        Contact savedContact = contactRepository.save(newContact);
 
-        return contactDto;
+        return fromContact(savedContact);
+    }
+
+    public void deleteContactForm (@RequestBody Long id) {
+        contactRepository.deleteById(id);
     }
 
 
@@ -51,6 +56,7 @@ public class ContactService {
 
         var dto = new ContactDto();
 
+        dto.id = contact.getId();
         dto.email = contact.getEmail();
         dto.firstName = contact.getFirstName();
         dto.lastName = contact.getLastName();
@@ -63,6 +69,7 @@ public class ContactService {
 
         var contact = new Contact();
 
+        contact.setId(contactDto.getId());
         contact.setEmail(contactDto.getEmail());
         contact.setFirstName(contactDto.getFirstName());
         contact.setLastName(contactDto.getLastName());

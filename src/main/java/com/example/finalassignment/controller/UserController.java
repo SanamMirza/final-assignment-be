@@ -1,9 +1,9 @@
 package com.example.finalassignment.controller;
 
-import com.example.finalassignment.dto.AccountDto;
 import com.example.finalassignment.dto.AccountUserDto;
 import com.example.finalassignment.dto.UserDto;
 import com.example.finalassignment.exception.BadRequestException;
+import com.example.finalassignment.repositories.UserRepository;
 import com.example.finalassignment.service.UserService;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -36,33 +36,36 @@ public class UserController {
 
         UserDto optionalUser = userService.getUser(username);
 
-
         return ResponseEntity.ok().body(optionalUser);
 
     }
 
     @PostMapping(value = "")
-    public ResponseEntity<AccountUserDto> createUser(@RequestBody AccountUserDto accountUserDto) {;
+    public ResponseEntity<Object> createUser(@RequestBody AccountUserDto accountUserDto) {
 
         String newUsername = userService.createUser(accountUserDto);
-        userService.addAuthority(newUsername, "USER");
+            userService.addAuthority(newUsername, "USER");
 
-        URI location = ServletUriComponentsBuilder.fromCurrentRequest().path("/{username}")
-                .buildAndExpand(newUsername).toUri();
+            URI location = ServletUriComponentsBuilder
+                    .fromCurrentRequest()
+                    .path("/{username}")
+                    .buildAndExpand(newUsername)
+                    .toUri();
 
-        return ResponseEntity.created(location).build();
-    }
+            return ResponseEntity.created(location).build();
+        }
+
 
     @PutMapping(value = "/{username}")
-    public ResponseEntity<UserDto> updateCliënt(@PathVariable("username") String username, @RequestBody UserDto dto) {
+    public ResponseEntity<UserDto> changePassword(@PathVariable("username") String username, @RequestBody UserDto dto) {
 
         userService.updateUser(username, dto);
 
         return ResponseEntity.noContent().build();
     }
 
-        @DeleteMapping(value = "/{username}")
-    public ResponseEntity<Object> deleteCliënt(@PathVariable("username") String username) {
+    @DeleteMapping(value = "/{username}")
+    public ResponseEntity<Object> deleteUser(@PathVariable("username") String username) {
         userService.deleteUser(username);
         return ResponseEntity.noContent().build();
     }
@@ -90,11 +93,6 @@ public class UserController {
         return ResponseEntity.noContent().build();
     }
 
-    @PutMapping("/{id}")
-    public UserDto updateUser(@PathVariable("id") String id, @RequestBody UserDto dto) {
-        userService.updateUser(id, dto);
-        return dto;
-    }
 
 }
 

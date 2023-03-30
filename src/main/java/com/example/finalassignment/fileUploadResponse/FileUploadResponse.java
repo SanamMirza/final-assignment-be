@@ -6,11 +6,10 @@ public class FileUploadResponse {
     String contentType;
     String url;
 
+
     public FileUploadResponse(String fileName, String contentType, String url) {
-        this.fileName = fileName;
-        this.contentType = contentType;
-        this.url = url;
     }
+
 
     public String getFileName() {
         return fileName;

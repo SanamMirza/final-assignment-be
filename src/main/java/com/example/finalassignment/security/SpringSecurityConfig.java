@@ -44,35 +44,39 @@ public class SpringSecurityConfig {
                 .cors().and()
                 .authorizeRequests()
                 .antMatchers(HttpMethod.POST, "/users/**").permitAll()
-                .antMatchers(HttpMethod.GET, "/users").permitAll()
-                .antMatchers(HttpMethod.GET, "/users/{id}").permitAll()
-                .antMatchers(HttpMethod.DELETE, "/users/**").permitAll()
-                .antMatchers(HttpMethod.PUT, "/users/**").permitAll()
-
-                .antMatchers(HttpMethod.POST, "/accounts/**").permitAll()
-                .antMatchers(HttpMethod.GET, "/accounts/**").permitAll()
-                .antMatchers(HttpMethod.DELETE, "/accounts/**").permitAll()
-                .antMatchers(HttpMethod.PUT, "/accounts/**").permitAll()
-
-                .antMatchers(HttpMethod.POST, "/appointments/**").permitAll()
-                .antMatchers(HttpMethod.GET, "/appointments/**").permitAll()
-                .antMatchers(HttpMethod.DELETE, "/appointments/**").permitAll()
-                .antMatchers(HttpMethod.PUT, "/appointments").permitAll()
-
-                .antMatchers(HttpMethod.POST, "/products/**").permitAll()
-                .antMatchers(HttpMethod.GET, "/products/**").permitAll()
-                .antMatchers(HttpMethod.DELETE, "/products/**").permitAll()
-                .antMatchers(HttpMethod.PUT, "/products/**").permitAll()
-
-                .antMatchers(HttpMethod.POST, "/docs/**").permitAll()
-                .antMatchers(HttpMethod.GET, "/docs/**").permitAll()
-                .antMatchers(HttpMethod.DELETE, "/docs/**").permitAll()
+                .antMatchers(HttpMethod.POST, "/users").permitAll()
+                .antMatchers(HttpMethod.GET, "/users").hasAuthority("ADMIN")
+                .antMatchers(HttpMethod.GET, "/users/**").hasAnyAuthority("ADMIN", "USER")
+                .antMatchers(HttpMethod.PUT, "/users/**").hasAnyAuthority("ADMIN", "USER")
+                .antMatchers(HttpMethod.DELETE, "/users/**").hasAuthority("ADMIN")
 
 
-                .antMatchers(HttpMethod.POST, "/contact").permitAll()
-                .antMatchers(HttpMethod.GET, "/contact/**").permitAll()
+                .antMatchers(HttpMethod.GET, "/accounts/**").hasAnyAuthority("ADMIN", "USER")
+                .antMatchers(HttpMethod.GET, "/accounts").permitAll()
+                .antMatchers(HttpMethod.PUT, "/accounts/**").hasAnyAuthority("ADMIN", "USER")
 
-                .antMatchers("/users", "/accounts", "/appointments", "/products", "/docs", "/contact").hasAnyAuthority("USER", "ADMIN")
+                .antMatchers(HttpMethod.POST, "/appointments/**").hasAnyAuthority("ADMIN", "USER")
+                .antMatchers(HttpMethod.GET, "/appointments/**").hasAuthority("ADMIN")
+                .antMatchers(HttpMethod.GET, "/appointments").hasAuthority("ADMIN")
+                .antMatchers(HttpMethod.DELETE, "/appointments/**").hasAnyAuthority("ADMIN", "USER")
+                .antMatchers(HttpMethod.PUT, "/appointments/**").hasAnyAuthority("ADMIN", "USER")
+
+                .antMatchers(HttpMethod.POST, "/products/**").hasAuthority("ADMIN")
+                .antMatchers(HttpMethod.GET, "/products").hasAuthority("ADMIN")
+                .antMatchers(HttpMethod.GET, "/products/**").hasAuthority("ADMIN")
+                .antMatchers(HttpMethod.DELETE, "/products/**").hasAuthority("ADMIN")
+
+
+                .antMatchers(HttpMethod.POST, "/docs/**").hasAnyAuthority("ADMIN", "USER")
+                .antMatchers(HttpMethod.GET, "/docs/**").hasAnyAuthority("ADMIN", "USER")
+
+
+                .antMatchers(HttpMethod.POST, "/contacts").permitAll()
+                .antMatchers(HttpMethod.GET, "/contacts/**").hasAuthority("ADMIN")
+                .antMatchers(HttpMethod.GET, "/contacts").hasAuthority("ADMIN")
+                .antMatchers(HttpMethod.DELETE, "/contacts/**").hasAuthority("ADMIN")
+
+                .antMatchers("/users", "/accounts", "/appointments", "/products", "/docs", "/contacts").hasAnyAuthority("USER", "ADMIN")
 
                 .antMatchers("/authenticated").authenticated()
                 .antMatchers("/authenticate").permitAll()
