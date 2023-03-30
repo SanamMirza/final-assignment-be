@@ -1,13 +1,13 @@
 package com.example.finalassignment.model;
 
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonManagedReference;
-import org.hibernate.annotations.LazyCollection;
-import org.hibernate.annotations.LazyCollectionOption;
 
 import javax.persistence.*;
 import java.util.List;
-import java.util.Set;
+import java.util.Objects;
+
 
 @Entity
 @Table(name= "accounts")
@@ -15,11 +15,11 @@ public class Account {
     @Id
     @GeneratedValue
     private Long id;
-
     private String username;
     private String firstName;
     private String lastName;
     private String address;
+    private String zipCode;
     @Column(unique = true)
     private String email;
     private Long telephoneNumber;
@@ -31,8 +31,27 @@ public class Account {
     @JsonManagedReference
     @OneToMany(mappedBy = "account", cascade = CascadeType.ALL, fetch = FetchType.EAGER)
     private List<FileUpload> fileUpload;
+
+    @JsonIgnore
     @OneToOne(mappedBy = "account")
     private User user;
+
+    public Account() {
+    }
+
+    public Account(Long id, String username, String firstName, String lastName, String address, String zipCode, String email, Long telephoneNumber, List<Appointment> appointment, List<FileUpload> fileUpload, User user) {
+        this.id = id;
+        this.username = username;
+        this.firstName = firstName;
+        this.lastName = lastName;
+        this.address = address;
+        this.zipCode = zipCode;
+        this.email = email;
+        this.telephoneNumber = telephoneNumber;
+        this.appointment = appointment;
+        this.fileUpload = fileUpload;
+        this.user = user;
+    }
 
     public void setUsername(String username) {
         this.username = username;
@@ -68,6 +87,14 @@ public class Account {
 
     public void setAddress(String address) {
         this.address = address;
+    }
+
+    public String getZipCode() {
+        return zipCode;
+    }
+
+    public void setZipCode(String zipCode) {
+        this.zipCode = zipCode;
     }
 
     public String getEmail() {
@@ -110,6 +137,19 @@ public class Account {
 
     public void setFileUpload(List<FileUpload> fileUpload) {
         this.fileUpload = fileUpload;
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        Account account = (Account) o;
+        return Objects.equals(id, account.id) && Objects.equals(username, account.username) && Objects.equals(firstName, account.firstName) && Objects.equals(lastName, account.lastName) && Objects.equals(address, account.address) && Objects.equals(zipCode, account.zipCode) && Objects.equals(email, account.email) && Objects.equals(telephoneNumber, account.telephoneNumber) && Objects.equals(appointment, account.appointment) && Objects.equals(fileUpload, account.fileUpload) && Objects.equals(user, account.user);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(id, username, firstName, lastName, address, zipCode, email, telephoneNumber, appointment, fileUpload, user);
     }
 }
 

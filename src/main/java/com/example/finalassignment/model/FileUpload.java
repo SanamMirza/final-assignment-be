@@ -3,8 +3,9 @@ package com.example.finalassignment.model;
 import com.fasterxml.jackson.annotation.JsonBackReference;
 
 import javax.persistence.*;
-import javax.validation.constraints.NotBlank;
-import java.util.List;
+import java.util.Arrays;
+import java.util.Objects;
+
 
 @Entity
 @Table(name= "docs")
@@ -12,7 +13,6 @@ public class FileUpload {
     @Id
     @GeneratedValue
     private Long id;
-
     private String fileName;
     @Lob
     private byte[] uploadFile;

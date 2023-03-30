@@ -3,18 +3,17 @@ package com.example.finalassignment.service;
 
 import com.example.finalassignment.dto.AppointmentDto;
 import com.example.finalassignment.exception.RecordNotFoundException;
+import com.example.finalassignment.exception.UsernameNotFoundException;
 import com.example.finalassignment.model.Account;
 import com.example.finalassignment.model.Appointment;
 import com.example.finalassignment.model.Product;
 import com.example.finalassignment.model.User;
-import com.example.finalassignment.repositories.AccountRepository;
 import com.example.finalassignment.repositories.AppointmentRepository;
 import com.example.finalassignment.repositories.ProductRepository;
 import com.example.finalassignment.repositories.UserRepository;
 import org.springframework.stereotype.Service;
 import org.springframework.web.bind.annotation.RequestBody;
 
-import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.List;
@@ -39,13 +38,11 @@ public class AppointmentService {
     }
 
     public Long createAppointment(AppointmentDto appointmentDto, String username, Long id) {
-        User user = userRepository.findById(username).orElseThrow(()-> new RecordNotFoundException("no user found with id " + username));
+        User user = userRepository.findById(username).orElseThrow(()-> new UsernameNotFoundException(username));
         Product product = productRepository.findById(id).orElseThrow(()-> new RecordNotFoundException("no product found with id " + id));
         Account account = user.getAccount();
         DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd");
-        LocalDate localDate = LocalDate.parse(appointmentDto.getAppointmentDate(), formatter);
-//        DateTimeFormatter timeFormatter = DateTimeFormatter.ofPattern("H:mm:ss");
-//        LocalTime localTime = LocalTime.parse(appointmentDto.getAppointmentTime(), timeFormatter);
+
         Appointment appointment = new Appointment();
 
         appointment.setSubject(product.getTitle());
@@ -59,10 +56,8 @@ public class AppointmentService {
     }
 
 
-
-
     public AppointmentDto getOneAppointment(Long id) {
-        AppointmentDto dto = new AppointmentDto();
+        AppointmentDto dto;
         Optional<Appointment> appointment = appointmentRepository.findById(id);
 
         if (appointment.isPresent()) {
@@ -84,15 +79,14 @@ public class AppointmentService {
         return appointmentDtoList;
     }
 
-    public void editAppointment(Long id, AppointmentDto newAppointment) {
+    public AppointmentDto editAppointment(Long id, AppointmentDto newAppointment) {
         if (!appointmentRepository.existsById(id)) throw new RecordNotFoundException("Appointment not found");
         Appointment appointment = appointmentRepository.findById(id).get();
-        appointment.setProduct(newAppointment.getProduct());
-        appointment.setSubject(newAppointment.getSubject());
         appointment.setAppointmentDate(newAppointment.getAppointmentDate());
         appointment.setAppointmentTime(newAppointment.getAppointmentTime());
 
         appointmentRepository.save(appointment);
+        return fromAppointment(appointment);
 
     }
 
@@ -105,10 +99,13 @@ public class AppointmentService {
     public static AppointmentDto fromAppointment(Appointment appointment){
         var dto = new AppointmentDto();
 
+
+        dto.id = appointment.getId();
         dto.product = appointment.getProduct();
         dto.subject = appointment.getSubject();
         dto.appointmentDate = appointment.getAppointmentDate();
         dto.appointmentTime = appointment.getAppointmentTime();
+        dto.account = appointment.getAccount();
 
         return dto;
     }
@@ -116,9 +113,12 @@ public class AppointmentService {
     public static Appointment toAppointment(AppointmentDto appointmentDto){
         var appointment = new Appointment();
 
+
+        appointment.setId(appointment.getId());
         appointment.setSubject(appointmentDto.getSubject());
         appointment.setAppointmentDate(appointmentDto.getAppointmentDate());
         appointment.setAppointmentTime(appointmentDto.getAppointmentTime());
+        appointment.setAccount(appointmentDto.getAccount());
 
         return appointment;
     }

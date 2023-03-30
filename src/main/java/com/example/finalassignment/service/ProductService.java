@@ -29,7 +29,7 @@ public class ProductService {
     }
 
     public ProductDto getProduct(Long id) {
-        ProductDto dto = new ProductDto();
+        ProductDto dto;
         Optional<Product> product = productRepository.findById(id);
 
         if (product.isPresent()) {
@@ -44,8 +44,7 @@ public class ProductService {
         List<Product> allProducts = productRepository.findAll();
         List<ProductDto> productDtoList = new ArrayList<>();
         for (Product p : allProducts) {
-            ProductDto newProductDto = new ProductDto();
-            newProductDto.title = p.getTitle();
+            ProductDto newProductDto = fromProduct(p);
 
             productDtoList.add(newProductDto);
         }
@@ -60,7 +59,9 @@ public class ProductService {
     public static ProductDto fromProduct(Product product){
         var dto = new ProductDto();
 
+        dto.id = product.getId();;
         dto.title = product.getTitle();
+
 
         return dto;
     }
@@ -68,6 +69,7 @@ public class ProductService {
     public static Product toProduct(ProductDto productDto){
         var product = new Product();
 
+        product.setId(productDto.getId());
         product.setTitle(productDto.getTitle());
 
 

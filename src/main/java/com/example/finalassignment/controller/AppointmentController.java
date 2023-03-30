@@ -53,8 +53,8 @@ public class AppointmentController {
 
     @PutMapping("/{id}")
     public AppointmentDto editAppointment(@PathVariable("id") Long id, @RequestBody AppointmentDto appointmentDto) {
-        appointmentService.editAppointment(id, appointmentDto);
-        return appointmentDto;
+        AppointmentDto appointment = appointmentService.editAppointment(id, appointmentDto);
+        return appointment;
     }
 
     @DeleteMapping("/{id}")

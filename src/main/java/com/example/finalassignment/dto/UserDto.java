@@ -1,16 +1,25 @@
 package com.example.finalassignment.dto;
 
 import com.example.finalassignment.model.Authority;
+import com.fasterxml.jackson.databind.annotation.JsonSerialize;
 
+import javax.persistence.Column;
+import javax.validation.constraints.NotBlank;
 import java.util.Set;
 
 public class UserDto {
+
+    @Column(unique = true)
     public String username;
+
+    @NotBlank
     public String password;
 
     public String email;
+    @JsonSerialize
     public Set<Authority> authorities;
     public AccountDto accountDto;
+
 
     public AccountDto getAccountDto() {
         return accountDto;

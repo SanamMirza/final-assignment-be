@@ -40,16 +40,16 @@ public class ProductController {
         }
     }
 
+    @GetMapping("")
+    public ResponseEntity<List<ProductDto>> getProducts() {
+        return ResponseEntity.ok(productService.getProducts());
+    }
+
     @GetMapping("/{id}")
     public ResponseEntity<ProductDto> getProduct(@PathVariable ("id") Long id) {
         ProductDto optionalProduct = productService.getProduct(id);
 
         return ResponseEntity.ok().body(optionalProduct);
-    }
-
-    @GetMapping("")
-    public ResponseEntity<List<ProductDto>> getProducts() {
-        return ResponseEntity.ok(productService.getProducts());
     }
 
     @DeleteMapping("/{id}")

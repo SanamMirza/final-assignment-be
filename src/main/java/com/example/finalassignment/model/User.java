@@ -1,20 +1,19 @@
 package com.example.finalassignment.model;
 
+
 import javax.persistence.*;
 import java.util.HashSet;
+import java.util.Objects;
 import java.util.Set;
 
 @Entity
 @Table(name= "users")
 public class User {
     @Id
-    @Column(nullable = false, unique = true)
     private String username;
-
     @Column(nullable = false, length = 255)
     private String password;
-
-    @Column
+    @Column(unique = true)
     private String email;
 
     @OneToMany(
@@ -24,9 +23,9 @@ public class User {
             orphanRemoval = true,
             fetch = FetchType.EAGER)
     private Set<Authority> authorities = new HashSet<>();
+
     @OneToOne(cascade = CascadeType.ALL)
     private Account account;
-
 
     public String getUsername() { return username; }
     public void setUsername(String username) {

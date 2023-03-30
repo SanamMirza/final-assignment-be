@@ -3,6 +3,9 @@ package com.example.finalassignment.model;
 import com.fasterxml.jackson.annotation.JsonBackReference;
 
 import javax.persistence.*;
+import java.time.LocalDate;
+import java.time.LocalTime;
+import java.util.Objects;
 
 @Entity
 @Table(name= "appointments")
@@ -11,8 +14,8 @@ public class Appointment {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
     private String subject;
-    private String appointmentDate;
-    private String appointmentTime;
+    private LocalDate appointmentDate;
+    private LocalTime appointmentTime;
 
     @OneToOne
     @JoinColumn(name = "product_id", referencedColumnName = "id")
@@ -23,6 +26,17 @@ public class Appointment {
     @JoinColumn(name = "account_id", referencedColumnName = "id")
     private Account account;
 
+    public Appointment() {
+    }
+
+    public Appointment(Long id, String subject, LocalDate appointmentDate, LocalTime appointmentTime, Product product, Account account) {
+        this.id = id;
+        this.subject = subject;
+        this.appointmentDate = appointmentDate;
+        this.appointmentTime = appointmentTime;
+        this.product = product;
+        this.account = account;
+    }
 
     public Long getId() {
         return id;
@@ -40,19 +54,19 @@ public class Appointment {
         this.subject = subject;
     }
 
-    public String getAppointmentDate() {
+    public LocalDate getAppointmentDate() {
         return appointmentDate;
     }
 
-    public void setAppointmentDate(String appointmentDate) {
+    public void setAppointmentDate(LocalDate appointmentDate) {
         this.appointmentDate = appointmentDate;
     }
 
-    public String getAppointmentTime() {
+    public LocalTime getAppointmentTime() {
         return appointmentTime;
     }
 
-    public void setAppointmentTime(String appointmentTime) {
+    public void setAppointmentTime(LocalTime appointmentTime) {
         this.appointmentTime = appointmentTime;
     }
 
@@ -63,4 +77,17 @@ public class Appointment {
     public Account getAccount() { return account; }
 
     public void setAccount(Account account) { this.account = account; }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        Appointment that = (Appointment) o;
+        return Objects.equals(id, that.id) && Objects.equals(subject, that.subject) && Objects.equals(appointmentDate, that.appointmentDate) && Objects.equals(appointmentTime, that.appointmentTime) && Objects.equals(product, that.product) && Objects.equals(account, that.account);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(id, subject, appointmentDate, appointmentTime, product, account);
+    }
 }

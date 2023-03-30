@@ -28,23 +28,19 @@ public class FileUploadController {
 
         // next line makes url. example "http://localhost:8080/download/naam.jpg"
         FileUpload fileUpload = fileUploadService.uploadFileDocument(file, username);
-        String url = ServletUriComponentsBuilder.fromCurrentContextPath().path("/downloadFrom/").path(Objects.requireNonNull(file.getOriginalFilename())).toUriString();
+        String url = ServletUriComponentsBuilder.fromCurrentContextPath().path("docs/downloadFrom/").path(Objects.requireNonNull(file.getOriginalFilename())).toUriString();
 
         String contentType = file.getContentType();
 
         return new FileUploadResponse(fileUpload.getFileName(), contentType, url);
     }
 
-    @GetMapping("/downloadFromDB/{fileName}")
+    @GetMapping("/downloadFrom/{fileName}")
     ResponseEntity<byte[]> downLoadSingleFile(@PathVariable String fileName, HttpServletRequest request) {
 
         return fileUploadService.singleFileDownload(fileName, request);
     }
 
-//    @GetMapping("/getAll/db")
-//    public Collection<FileUpload> getAllFromDB(){
-//        return fileUploadService.getALlFromDB();
-//    }
 }
 
 
